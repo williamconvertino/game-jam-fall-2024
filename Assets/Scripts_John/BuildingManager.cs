@@ -20,6 +20,8 @@ public class BuildingManager : MonoBehaviour
     private GameObject parentShip;
     public GameObject[] placedObjectPrefabs;
     public GameObject[,] placedObjects;
+    public Canvas canvas;
+    public GameObject grid;
 
     int GRID_SIZE = 7;
     float GRID_LEFT = -4.2f;
@@ -134,6 +136,13 @@ public class BuildingManager : MonoBehaviour
         {
             mouseMarker.sprite = mouseMarkerSprites[selectedIndex];
         }
+    }
+    public void exitBuildMode()
+    {
+        canvas.gameObject.SetActive(false);
+        mouseMarker.gameObject.SetActive(false);
+        grid.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
     public void onSelectBuildItem(int index)
