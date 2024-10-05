@@ -9,29 +9,36 @@ public class ThrusterComponent : ShipComponent
     public override void Initialize(Ship parentShip)
     {
         base.Initialize(parentShip);
-        Vector3 rotation = transform.localRotation.eulerAngles;
-        if (rotation.z == 0)
-        {
-            _forwardKey = KeyCode.DownArrow;
-            _backwardKey = KeyCode.UpArrow;
-        }
-        else if (rotation.z == 180)
+        float rotation = transform.localRotation.eulerAngles.z;
+        if (AngleEqual(rotation, 0))
         {
             _forwardKey = KeyCode.UpArrow;
             _backwardKey = KeyCode.DownArrow;
         }
-        else if (rotation.z == 90)
+        else if (AngleEqual(rotation, 180))
+        {
+            _forwardKey = KeyCode.DownArrow;
+            _backwardKey = KeyCode.UpArrow;
+        }
+        else if (AngleEqual(rotation, 90))
         {
             _forwardKey = KeyCode.RightArrow;
             _backwardKey = KeyCode.LeftArrow;
         }
-        else if (rotation.z == 270)
+        else if (AngleEqual(rotation, 270))
         {
             _forwardKey = KeyCode.LeftArrow;
             _backwardKey = KeyCode.RightArrow;
+        } else
+        {
+            print("Thruster rotation not supported.");
         }
     }
-    void Update()
+    private bool AngleEqual(float a, float b, float tolerance = 5.0f)
+    {
+        return Mathf.Abs(a - b) < tolerance;
+    }
+    private void Update()
     {
         if (Frozen)
         {
@@ -39,11 +46,11 @@ public class ThrusterComponent : ShipComponent
         }
         if (Input.GetKey(_forwardKey))
         {
-            ParentShip.Thrust(_forwardThrust, -transform.up, transform.position);
+            ParentShip.Thrust(_forwardThrust, transform.up, transform.position);
         }
         if (Input.GetKey(_backwardKey))
         {
-            ParentShip.Thrust(_backwardThrust, transform.up, transform.position);
+            ParentShip.Thrust(_backwardThrust, -transform.up, transform.position);
         }
     }
 }

@@ -29,7 +29,6 @@ public class GunBarrel : MonoBehaviour
     
     private void Fire()
     {
-        print("Firing");
         Vector3 direction = _fireDirection.position - _firePoint.position;
         Vector3 sourceVelocity = _parentGunComponent.ParentShip.Rb2d.velocity;
         GameObject projectile = Instantiate(_projectilePrefab, _firePoint.position, Quaternion.identity);
