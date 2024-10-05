@@ -13,16 +13,23 @@ public class PilotComponent : ShipComponent
         {
             return;
         }
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             ParentShip.Thrust(_forwardThrust, transform.up, transform.position);
         }
-        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             ParentShip.Thrust(_backwardThrust, -transform.up, transform.position);
         }
-
-        float turn = Input.GetAxis("Horizontal");
+        float turn = 0;
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            turn += 1;
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            turn -= 1;
+        }
         if (turn != 0)
         {
             ParentShip.Turn(turn * _turnSpeed);
