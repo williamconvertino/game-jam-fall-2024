@@ -3,14 +3,15 @@ using UnityEngine;
 public class Ship : MonoBehaviour
 {
     private Rigidbody2D _rb2d;
-    private ShipComponent[] _childrenComponents;
+    private ShipComponent[] _childrenComponents = new ShipComponent[] { };
     private float _mass = 0.0f;
-
-    void Start()
+    
+    public void Initialize()
     {
         _rb2d = GetComponent<Rigidbody2D>();
         InitializeComponents();
         CalculateMass();
+        Unfreeze();
     }
 
     private void InitializeComponents()
@@ -19,6 +20,20 @@ public class Ship : MonoBehaviour
         foreach (var component in _childrenComponents)
         {
             component.Initialize(this);
+        }
+    }
+    public void Freeze()
+    {
+        foreach (var component in _childrenComponents)
+        {
+            component.Frozen = true;
+        }
+    }
+    public void Unfreeze()
+    {
+        foreach (var component in _childrenComponents)
+        {
+            component.Frozen = false;
         }
     }
 

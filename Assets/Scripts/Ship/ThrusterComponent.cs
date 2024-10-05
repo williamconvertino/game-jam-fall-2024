@@ -7,6 +7,10 @@ public class ThrusterComponent : ShipComponent
 
     void Update()
     {
+        if (Frozen)
+        {
+            return;
+        }
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
             ParentShip.Thrust(_forwardThrust, transform.up, transform.position);

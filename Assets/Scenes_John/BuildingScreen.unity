@@ -801,13 +801,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseMarker: {fileID: 1879121597}
-  placedObjectPrefabs:
-  - {fileID: 2047225088395429285, guid: dacf31ecf4caa0a4395be12232660d87, type: 3}
-  - {fileID: 2047225088395429285, guid: ef06893b0df075643acbc63648d4e518, type: 3}
   mouseMarkerSprites:
   - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   - {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  shipTransform: {fileID: 1466864389}
+  SHOULD_SMART_ROTATE: 1
+  shipPrefab: {fileID: 7997934318984520886, guid: 6d596a69eaeb3784dab5c36b3a495a26, type: 3}
+  placedObjectPrefabs:
+  - {fileID: 8360647954280153037, guid: f18c06d0100f1e3458d5bc8f37479f48, type: 3}
+  - {fileID: 2534980319284257439, guid: 86139760a3a25b945ac88d43b3b2d498, type: 3}
 --- !u!4 &1188217711
 Transform:
   m_ObjectHideFlags: 0
@@ -960,37 +961,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!1 &1466864388
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1466864389}
-  m_Layer: 0
-  m_Name: Ship
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1466864389
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1466864388}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1844499959
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,4 +1193,3 @@ SceneRoots:
   - {fileID: 385470114}
   - {fileID: 312999744}
   - {fileID: 2027483070}
-  - {fileID: 1466864389}

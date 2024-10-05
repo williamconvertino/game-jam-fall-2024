@@ -8,10 +8,19 @@ using UnityEngine.UI;
 
 public class BuildingManager : MonoBehaviour
 {
+    [Header("UI")]
     public SpriteRenderer mouseMarker;
-    public GameObject[] placedObjectPrefabs;
     public Sprite[] mouseMarkerSprites;
+    
+    [Header("Controls")]
+    public bool SHOULD_SMART_ROTATE = true;
+    
+    [Header("Prefabs")]
+    public Ship shipPrefab;
+    private GameObject parentShip;
+    public GameObject[] placedObjectPrefabs;
     public GameObject[,] placedObjects;
+
     int GRID_SIZE = 7;
     float GRID_LEFT = -4.2f;
     float GRID_RIGHT = 4.2f;
@@ -21,8 +30,6 @@ public class BuildingManager : MonoBehaviour
     float SPRITE_WIDTH;
     Vector3 mouseWorldPos;
     int selectedIndex = -1; //-1 means no tile selected
-    public Transform shipTransform;
-    public bool SHOULD_SMART_ROTATE = true;
     float FACING_UP_ANGLE = 0f;
     float FACING_DOWN_ANGLE = 180f;
     float FACING_RIGHT_ANGLE = 270f;
@@ -46,6 +53,17 @@ public class BuildingManager : MonoBehaviour
             {
                 placedObjects[i,j] = null;
             }
+        }
+        
+        Initialize(Instantiate(shipPrefab).gameObject);
+    }
+    
+    public void Initialize(GameObject newParentShip)
+    {
+        if (parentShip != newParentShip)
+        {
+            Destroy(parentShip);
+            parentShip = newParentShip;
         }
     }
 
@@ -108,7 +126,7 @@ public class BuildingManager : MonoBehaviour
                     {
                         Destroy(placedObjects[gridX, gridY]);
                     }
-                    placedObjects[gridX, gridY] = Instantiate(placedObjectPrefabs[selectedIndex], new Vector3(posX, posY), mouseMarker.transform.rotation, shipTransform);
+                    placedObjects[gridX, gridY] = Instantiate(placedObjectPrefabs[selectedIndex], new Vector3(posX, posY), mouseMarker.transform.rotation, parentShip.transform);
                 }
             }
         }

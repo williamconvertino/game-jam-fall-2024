@@ -12,6 +12,10 @@ public class GunComponent : ShipComponent
     
     private void Update()
     {
+        if (Frozen)
+        {
+            return;
+        }
         if (Input.GetKeyDown(FireKey))
         {
             foreach (var barrel in _barrels)
