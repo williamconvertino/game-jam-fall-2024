@@ -17,7 +17,7 @@ public class BuildingManager : MonoBehaviour
     
     [Header("Prefabs")]
     public Ship shipPrefab;
-    private GameObject parentShip;
+    private Ship parentShip;
     public GameObject[] placedObjectPrefabs;
     public GameObject[,] placedObjects;
     public Canvas canvas;
@@ -57,10 +57,10 @@ public class BuildingManager : MonoBehaviour
             }
         }
         
-        Initialize(Instantiate(shipPrefab).gameObject);
+        Initialize(Instantiate(shipPrefab));
     }
     
-    public void Initialize(GameObject newParentShip)
+    public void Initialize(Ship newParentShip)
     {
         if (parentShip != newParentShip)
         {
@@ -282,5 +282,11 @@ public class BuildingManager : MonoBehaviour
     private bool isBlockToRight(int x, int y)
     {
         return (x < GRID_SIZE - 1 && placedObjects[x + 1, y] != null && placedObjects[x + 1, y].tag == "Block");
+    }
+
+    public void FinishShip()
+    {
+        parentShip.Initialize();
+        parentShip.Unfreeze();
     }
 }
