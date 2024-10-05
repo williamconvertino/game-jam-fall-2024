@@ -1,17 +1,21 @@
 using UnityEngine;
-[RequireComponent(typeof(Rigidbody2D))]
-public class Ship : MonoBehaviour
+public class Ship : Entity
 {
-    private Rigidbody2D _rb2d;
     private ShipComponent[] _childrenComponents = new ShipComponent[] { };
     private float _mass = 0.0f;
-    
+    private void Start()
+    {
+        Initialize();
+        if (!Frozen)
+        {
+            Unfreeze();
+        }
+    }
+
     public void Initialize()
     {
-        _rb2d = GetComponent<Rigidbody2D>();
         InitializeComponents();
         CalculateMass();
-        Unfreeze();
     }
 
     private void InitializeComponents()
@@ -22,15 +26,17 @@ public class Ship : MonoBehaviour
             component.Initialize(this);
         }
     }
-    public void Freeze()
+    public override void Freeze()
     {
+        base.Freeze();
         foreach (var component in _childrenComponents)
         {
             component.Frozen = true;
         }
     }
-    public void Unfreeze()
+    public override void Unfreeze()
     {
+        base.Unfreeze();
         foreach (var component in _childrenComponents)
         {
             component.Frozen = false;
@@ -39,12 +45,12 @@ public class Ship : MonoBehaviour
 
     public void Turn(float amount)
     {
-        _rb2d.AddTorque(-amount);
+        Rb2d.AddTorque(-amount);
     }
 
     public void Thrust(float amount, Vector3 direction, Vector3 position)
     {
-        _rb2d.AddForceAtPosition( direction * amount, position);
+        Rb2d.AddForceAtPosition( direction * amount, position);
     }
 
     private void CalculateMass()
@@ -54,6 +60,6 @@ public class Ship : MonoBehaviour
         {
             _mass += component.Mass;
         }
-        _rb2d.mass = _mass;
+        Rb2d.mass = _mass;
     }
 }

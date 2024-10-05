@@ -8,6 +8,10 @@ public class GunComponent : ShipComponent
     private void Start()
     {
         _barrels = GetComponentsInChildren<GunBarrel>();
+        foreach (var barrel in _barrels)
+        {
+            barrel.Initialize(this);
+        }
     }
     
     private void Update()

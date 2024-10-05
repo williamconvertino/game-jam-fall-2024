@@ -13,17 +13,16 @@ public class Projectile : MonoBehaviour
     private Rigidbody2D _rb2d;
     private string[] _tagsToIgnore;
 
-    public void Initialize(Vector3 direction, string[] tagsToIgnore)
+    public void Initialize(Vector3 direction, Vector3 sourceVelocity, string[] tagsToIgnore)
     {
         _tagsToIgnore = tagsToIgnore;
         _rb2d = GetComponent<Rigidbody2D>();
-        Vector3 velocity = direction.normalized * _speed;
+        Vector3 velocity = direction.normalized * _speed + sourceVelocity;
         _rb2d.velocity = velocity;
     }
     
     private void Update()
     {
-        transform.position += transform.right * _speed * Time.deltaTime;
         _lifetimeTimer += Time.deltaTime;
         if (_lifetimeTimer >= _lifetime)
         {

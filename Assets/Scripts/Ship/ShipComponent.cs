@@ -4,11 +4,11 @@ public class ShipComponent : MonoBehaviour
 {
     public float Mass = 1.0f;
     public bool Frozen = true;
-    protected Ship ParentShip;
+    [HideInInspector] public Ship ParentShip;
 
     public void Initialize(Ship parentShip)
     {
-        this.ParentShip = parentShip;
+        ParentShip = parentShip;
     }
     
 }
