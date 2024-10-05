@@ -24,11 +24,11 @@ public class PilotComponent : ShipComponent
         float turn = 0;
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            turn += 1;
+            turn -= 1;
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            turn -= 1;
+            turn += 1;
         }
         if (turn != 0)
         {
