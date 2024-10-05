@@ -12,13 +12,13 @@ public class ThrusterComponent : ShipComponent
         float rotation = transform.localRotation.eulerAngles.z;
         if (AngleEqual(rotation, 0))
         {
-            _forwardKey = KeyCode.UpArrow;
-            _backwardKey = KeyCode.DownArrow;
+            _forwardKey = KeyCode.DownArrow;
+            _backwardKey = KeyCode.UpArrow;
         }
         else if (AngleEqual(rotation, 180))
         {
-            _forwardKey = KeyCode.DownArrow;
-            _backwardKey = KeyCode.UpArrow;
+            _forwardKey = KeyCode.UpArrow;
+            _backwardKey = KeyCode.DownArrow;
         }
         else if (AngleEqual(rotation, 90))
         {
@@ -46,11 +46,11 @@ public class ThrusterComponent : ShipComponent
         }
         if (Input.GetKey(_forwardKey))
         {
-            ParentShip.Thrust(_forwardThrust, transform.up, transform.position);
+            ParentShip.Thrust(_forwardThrust, -transform.up, transform.position);
         }
         if (Input.GetKey(_backwardKey))
         {
-            ParentShip.Thrust(_backwardThrust, -transform.up, transform.position);
+            ParentShip.Thrust(_backwardThrust, transform.up, transform.position);
         }
     }
 }
