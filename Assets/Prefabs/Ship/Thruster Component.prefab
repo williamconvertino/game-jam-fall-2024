@@ -148,5 +148,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Mass: 1
   Frozen: 1
+  ParentShip: {fileID: 0}
   _forwardThrust: 4
-  _backwardThrust: 1
+  _backwardThrust: 0
