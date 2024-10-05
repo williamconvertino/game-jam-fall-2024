@@ -1,8 +1,8 @@
 using UnityEngine;
 public class Ship : Entity
 {
+    [HideInInspector] public int ShipSize = 0; 
     private ShipComponent[] _childrenComponents = new ShipComponent[] { };
-    private float _mass = 0.0f;
     private void Start()
     {
         Initialize();
@@ -55,11 +55,15 @@ public class Ship : Entity
 
     private void CalculateMass()
     {
-        _mass = 0.0f;
+        ShipSize = 0;
         foreach (var component in _childrenComponents)
         {
-            _mass += component.Mass;
+            if (component.CompareTag("Block"))
+            {
+                ShipSize++;
+            }
         }
-        Rb2d.mass = _mass;
+
+        Rb2d.mass = Mathf.Sqrt(ShipSize);
     }
 }

@@ -6,7 +6,7 @@ public class ShipComponent : MonoBehaviour
     public bool Frozen = true;
     [HideInInspector] public Ship ParentShip;
 
-    public void Initialize(Ship parentShip)
+    public virtual void Initialize(Ship parentShip)
     {
         ParentShip = parentShip;
     }

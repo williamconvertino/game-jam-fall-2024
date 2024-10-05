@@ -162,6 +162,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Mass: 1
+  Frozen: 1
+  ParentShip: {fileID: 0}
   FireKey: 304
 --- !u!58 &3838687520825679875
 CircleCollider2D:
