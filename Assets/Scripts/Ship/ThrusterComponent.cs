@@ -46,11 +46,11 @@ public class ThrusterComponent : ShipComponent
         }
         if (Input.GetKey(_forwardKey))
         {
-            ParentShip.Thrust(_forwardThrust, transform.up, transform.position);
+            ParentShip.Thrust(_forwardThrust, -transform.up, transform.position);
         }
         if (Input.GetKey(_backwardKey))
         {
-            ParentShip.Thrust(_backwardThrust, -transform.up, transform.position);
+            ParentShip.Thrust(_backwardThrust, transform.up, transform.position);
         }
     }
 }
