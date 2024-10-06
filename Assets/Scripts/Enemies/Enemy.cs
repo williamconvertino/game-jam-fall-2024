@@ -1,10 +1,24 @@
 ﻿using UnityEngine;
-public class Enemy : Entity
+public abstract class Enemy : Entity
 {
-    public GameObject target;
+    [Header("Base Enemy Stats")]
+    [SerializeField] protected int Health;
+    [SerializeField] protected int Damage;
+    [SerializeField] protected float Speed;
+    
+    protected Ship PlayerShip;
+    protected Transform Target;
+    protected float PursueRange;
 
-    public float pursueRange;
-    public float closeRange;
-    public float acceleration;
-    public float decceleration;
+    protected void Start()
+    {
+        PlayerShip = GameManager.Instance.PlayerShip;
+        Target = PlayerShip.transform;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
+        Gizmos.DrawWireSphere(transform.position, PursueRange);
+    }
 }

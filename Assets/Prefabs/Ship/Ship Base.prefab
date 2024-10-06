@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2257804361511186118}
   - component: {fileID: 7997934318984520886}
   - component: {fileID: 6247073598827581912}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ship Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,6 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8223a264309612147ae1b3cc9b6c85d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Frozen: 1
+  Rb2d: {fileID: 0}
+  ShipSize: 0
+  pilotRow: 0
+  pilotCol: 0
+  buildingManager: {fileID: 0}
 --- !u!50 &6247073598827581912
 Rigidbody2D:
   serializedVersion: 4

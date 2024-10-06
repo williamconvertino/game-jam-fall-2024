@@ -5,7 +5,7 @@ public class GunComponent : ShipComponent
     public KeyCode FireKey = KeyCode.Z;
     private GunBarrel[] _barrels;
 
-    private void Start()
+    public override void Start()
     {
         base.Start();
         connections[0] = false;
@@ -19,8 +19,9 @@ public class GunComponent : ShipComponent
         }
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (Frozen)
         {
             return;

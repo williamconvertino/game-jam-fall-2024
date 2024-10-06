@@ -9,6 +9,9 @@ public class Grabber : Enemy
     private Vector2 prev_error;
     
     private Rigidbody2D rb;
+    public float closeRange;
+    public float acceleration;
+    public float decceleration;
 
     [SerializeField] private string[] _tagsToIgnore;
 
@@ -24,7 +27,7 @@ public class Grabber : Enemy
     void FixedUpdate()
     {
         if (Frozen) return;
-        Vector2 error = (target.transform.position - transform.position);
+        Vector2 error = (Target.transform.position - transform.position);
         Vector2 error_derivative = error - prev_error;
         float kp = 1f;
         float kd = 1f;

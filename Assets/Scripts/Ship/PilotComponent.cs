@@ -7,8 +7,9 @@ public class PilotComponent : ShipComponent
     
     [SerializeField] private float _turnSpeed = 1.0f;
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         if (Frozen)
         {
             return;

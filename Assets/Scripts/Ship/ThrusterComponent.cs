@@ -52,6 +52,7 @@ public class ThrusterComponent : ShipComponent
     }
     protected override void Update()
     {
+        base.Update();
         if (Frozen)
         {
             return;

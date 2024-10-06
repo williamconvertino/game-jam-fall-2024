@@ -194,6 +194,61 @@ public class BuildingManager : MonoBehaviour
             }
         }
     }
+
+
+    public float zoomDuration = 0.5f;
+    private IEnumerator SmoothEnterBuildMode()
+    {
+        Quaternion startRotation = follow.transform.rotation;
+        Quaternion endRotation = follow.target.transform.rotation;
+
+        float startZoom = follow.zoomScale;
+        float endZoom = 0.5f;
+
+        float t = 0f;
+        while(t < zoomDuration)
+        {
+            follow.transform.rotation = Quaternion.Slerp(startRotation, endRotation, t / zoomDuration);
+            follow.zoomScale = Mathf.Lerp(startZoom, endZoom, t / zoomDuration);
+            yield return null;
+            t += Time.deltaTime;
+        }
+
+        // Activate UI
+        buildingUI.gameObject.SetActive(true);
+        mouseMarker.gameObject.SetActive(true);
+        grid.SetActive(true);
+        gameplayUI.gameObject.SetActive(false);
+        isBuilding = true;
+
+        follow.trackRotation = true;
+        follow.zoomScale = .5f;
+    }
+
+    private IEnumerator SmoothExitBuildMode(Ship ship)
+    {
+        float startZoom = follow.zoomScale;
+        float endZoom = 1f;
+
+        float t = 0f;
+        while(t < zoomDuration)
+        {
+            follow.zoomScale = Mathf.Lerp(startZoom, endZoom, t / zoomDuration);
+            yield return null;
+            t += Time.deltaTime;
+        }
+
+
+        gameplayUI.gameObject.SetActive(true);
+        isBuilding = false;
+        selectedIndex = -1;
+        mouseMarker.sprite = null;
+        follow.trackRotation = false;
+        follow.zoomScale = 1;
+
+        GameManager.Instance.Unpause();
+    }
+
     public void exitBuildMode()
     {
         parentShip.Initialize(placedObjects);
@@ -203,26 +258,16 @@ public class BuildingManager : MonoBehaviour
         buildingUI.gameObject.SetActive(false);
         mouseMarker.gameObject.SetActive(false);
         grid.SetActive(false);
-        gameplayUI.gameObject.SetActive(true);
-        isBuilding = false;
-        selectedIndex = -1;
-        mouseMarker.sprite = null;
-        follow.trackRotation = false;
-        follow.zoomScale = 1;
-        
-        GameManager.Instance.Unpause();
+
+        StartCoroutine(SmoothExitBuildMode(parentShip));
     }
     
     public void enterBuildMode() //fix rotation
     {
         GameManager.Instance.Pause();
-        buildingUI.gameObject.SetActive(true);
-        mouseMarker.gameObject.SetActive(true);
-        grid.SetActive(true);
-        gameplayUI.gameObject.SetActive(false);
-        isBuilding = true;
-        follow.trackRotation = true;
-        follow.zoomScale = .5f;
+
+        StartCoroutine(SmoothEnterBuildMode());
+
     }
 
     public void onSelectBuildItem(int index)

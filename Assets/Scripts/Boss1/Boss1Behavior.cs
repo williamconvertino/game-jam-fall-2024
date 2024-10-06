@@ -29,6 +29,17 @@ public class Boss1Behavior : MonoBehaviour
     public float laserBlastTime = 0.2f; // time the laser is firing
     public float laserCooldown = 5f;
 
+    [Header("Laser Effects")]
+    public ParticleSystem laserChargeUp;
+    public float laserChargeParticleStartRate = 3f;
+    public float laserChargeParticleEndRate = 5f;
+    public Transform preLaser;
+    private SpriteRenderer _preLaserSprite;
+    public float preLaserChargeUpPulseSpeed = 2f;
+    public float preLaserLockOnPulseSpeed = 4f;
+    public float preLaserFinalSize = 1f;
+    public float preLaserPulseEffectSize = 0.2f;
+
     private LineRenderer _laserTrackingBeam;
     private float _timeSinceLaser = 0f;
     private float _chargeTime = 0f;
@@ -44,7 +55,7 @@ public class Boss1Behavior : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            player = GameManager.Instance.playerShip.transform;
+            player = GameManager.Instance.PlayerShip.transform;
         }
         SpawnDefensiveRing();
         _laserTrackingBeam = head.gameObject.GetComponent<LineRenderer>();
@@ -55,6 +66,9 @@ public class Boss1Behavior : MonoBehaviour
         laser.positionCount = 2;
         laser.useWorldSpace = true;
         laser.enabled = false;
+
+        laserChargeUp.Stop();
+        preLaser.localScale = new Vector3(0f, 0f, 1f);
     }
 
     // Update is called once per frame
@@ -79,13 +93,20 @@ public class Boss1Behavior : MonoBehaviour
                 _timeSinceLaser += Time.deltaTime;
                 break;
             case BehaviorState.Charging:
+                float pulseSpeed = preLaserLockOnPulseSpeed;
                 SpinRing(idleSpinSpeed);
                 if (_chargeTime < laserUntilLockonTime)
                 {
                     HeadTrackPlayer(headChargingSpeed);
                     TrackLaser();
+                    pulseSpeed = preLaserChargeUpPulseSpeed;
                 }
+                else { laserChargeUp.Stop(); }
                 _chargeTime += Time.deltaTime;
+                var emitter = laserChargeUp.emission;
+                emitter.rateOverTime = Mathf.Lerp(laserChargeParticleStartRate, laserChargeParticleEndRate, _chargeTime / laserChargeUpTime);
+                float preLaserSize = preLaserPulseEffectSize * Mathf.Sin(_chargeTime * pulseSpeed) + Mathf.Lerp(0f, preLaserFinalSize, _chargeTime / laserChargeUpTime);
+                preLaser.localScale = new Vector3(preLaserSize, preLaserSize, 1f);
                 break;
             case BehaviorState.Firing:
                 _timeSinceLaser += Time.deltaTime;
@@ -104,10 +125,10 @@ public class Boss1Behavior : MonoBehaviour
                 break;
             case BehaviorState.Tracking:
                 if (TrackingToIdle()) _state = BehaviorState.Idle;
-                if (TrackingToCharging()) { _state = BehaviorState.Charging; _chargeTime = 0f; _laserTrackingBeam.enabled = true; }
+                if (TrackingToCharging()) { _state = BehaviorState.Charging; _chargeTime = 0f; _laserTrackingBeam.enabled = true; laserChargeUp.Play(); }
                 break;
             case BehaviorState.Charging:
-                if (ChargingToFiring()) { _state = BehaviorState.Firing; _timeSinceLaser = 0f; FireLaser(); }
+                if (ChargingToFiring()) { _state = BehaviorState.Firing; _timeSinceLaser = 0f; FireLaser(); laserChargeUp.Stop(); preLaser.localScale = new Vector3(0f, 0f, 1f); }
                 break;
             case BehaviorState.Firing:
                 if(FiringToTracking()) { _state = BehaviorState.Tracking; _timeSinceLaser = 0f; laser.enabled = false; }

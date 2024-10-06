@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour
 {
     public bool Frozen = true;
     private bool _wasFrozen = false;
@@ -13,6 +13,9 @@ public class Entity : MonoBehaviour
     protected void Awake()
     {
         Rb2d = GetComponent<Rigidbody2D>();
+        Rb2d.drag = GameManager.Instance.BaseRb2d.drag;
+        Rb2d.angularDrag = GameManager.Instance.BaseRb2d.angularDrag;
+        Rb2d.gravityScale = GameManager.Instance.BaseRb2d.gravityScale;
     }
 
     protected void Update()
