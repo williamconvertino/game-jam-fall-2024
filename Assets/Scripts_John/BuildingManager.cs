@@ -18,7 +18,7 @@ public class BuildingManager : MonoBehaviour
     [Header("Prefabs")]
     public Ship parentShip;
     public GameObject[] placedObjectPrefabs;
-    public GameObject[,] placedObjects;
+    public ShipComponent[,] placedObjects;
     public GameObject buildingUI;
     public GameObject gameplayUI;
     public GameObject grid;
@@ -49,7 +49,7 @@ public class BuildingManager : MonoBehaviour
         GRID_TOP = (GRID_SIZE / 2) * SPRITE_WIDTH;
         GRID_BOTTOM = -(GRID_SIZE / 2) * SPRITE_WIDTH;
         
-        placedObjects = new GameObject[GRID_SIZE,GRID_SIZE];
+        placedObjects = new ShipComponent[GRID_SIZE,GRID_SIZE];
         for (int i = 0; i < GRID_SIZE; i++)
         {
             for (int j = 0; j < GRID_SIZE; j++)
@@ -122,7 +122,10 @@ public class BuildingManager : MonoBehaviour
                         {
                             Destroy(placedObjects[gridX, gridY]);
                         }
-                        placedObjects[gridX, gridY] = Instantiate(placedObjectPrefabs[selectedIndex], new Vector3(posX, posY), mouseMarker.transform.rotation, parentShip.transform);
+
+                        placedObjects[gridX, gridY] =
+                            Instantiate(placedObjectPrefabs[selectedIndex], new Vector3(posX, posY),
+                                mouseMarker.transform.rotation, parentShip.transform).GetComponent<ShipComponent>();
                     }
                 }
             }
@@ -294,7 +297,7 @@ public class BuildingManager : MonoBehaviour
 
     public void FinishShip()
     {
-        parentShip.Initialize();
+        parentShip.Initialize(placedObjects);
         parentShip.Unfreeze();
     }
 }

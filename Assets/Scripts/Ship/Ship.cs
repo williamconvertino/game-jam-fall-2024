@@ -3,17 +3,19 @@ public class Ship : Entity
 {
     [HideInInspector] public int ShipSize = 0; 
     private ShipComponent[] _childrenComponents = new ShipComponent[] { };
+    private ShipComponent[,] _componentGraph;
     private void Start()
     {
-        Initialize();
+        Initialize(new ShipComponent[,]{});
         if (!Frozen)
         {
             Unfreeze();
         }
     }
 
-    public void Initialize()
+    public void Initialize(ShipComponent[,] componentGraph)
     {
+        _componentGraph = componentGraph;
         InitializeComponents();
         CalculateMass();
     }

@@ -38,7 +38,7 @@ public class ThrusterComponent : ShipComponent
     {
         return Mathf.Abs(a - b) < tolerance;
     }
-    private void Update()
+    protected override void Update()
     {
         if (Frozen)
         {

@@ -24,7 +24,7 @@ public class ShipComponent : MonoBehaviour
         ParentShip = parentShip;
     }
 
-    public void Update()
+    protected virtual void Update()
     {
         if (4 * currentHealth < maxHealth)
         {
