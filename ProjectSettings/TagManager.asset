@@ -7,6 +7,7 @@ TagManager:
   - Block
   - Gun
   - Thruster
+  - Enemy
   layers:
   - Default
   - TransparentFX
