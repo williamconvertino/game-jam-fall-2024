@@ -18,7 +18,7 @@ public abstract class Entity : MonoBehaviour
         Rb2d.gravityScale = GameManager.Instance.BaseRb2d.gravityScale;
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         if (Frozen && !_wasFrozen)
         {
