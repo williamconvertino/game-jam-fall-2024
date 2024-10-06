@@ -130,12 +130,12 @@ MonoBehaviour:
   Frozen: 1
   Rb2d: {fileID: 0}
   Health: 0
-  Damage: 5
+  Damage: 20
   Speed: 5
   PursueRange: 15
-  maxVeloToFire: 15
+  maxVeloToFire: 10
   rateOfFire: 2
-  closeRange: 5
+  closeRange: 8
   acceleration: 1
   decceleration: 1
   bulletVelo: 8

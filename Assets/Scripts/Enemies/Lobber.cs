@@ -61,5 +61,7 @@ public class Lobber : Enemy
 
         // Slow down if already close to target
         rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, decceleration * Time.deltaTime);
+
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, toTarget);
     }
 }
