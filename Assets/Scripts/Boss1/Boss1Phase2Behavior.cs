@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Boss1Phase2Behavior : MonoBehaviour
 {
-    public GameObject arcSegment;
+    public GameObject innerArcSegment;
+    public GameObject outerArcSegment;
 
     [System.Serializable]
     public struct RingData
@@ -34,10 +35,10 @@ public class Boss1Phase2Behavior : MonoBehaviour
     void Start()
     {
         // Outer ring
-        SpawnRing(outerRing, outerRingData);
+        SpawnRing(outerRing, outerRingData, outerArcSegment);
 
         // Inner ring
-        SpawnRing(innerRing, innerRingData);
+        SpawnRing(innerRing, innerRingData, innerArcSegment);
     }
 
     // Update is called once per frame
@@ -75,7 +76,7 @@ public class Boss1Phase2Behavior : MonoBehaviour
         ring.rotation *= Quaternion.Euler(0f, 0f, speed);
     }
 
-    private void SpawnRing(Transform parent, RingData ringData)
+    private void SpawnRing(Transform parent, RingData ringData, GameObject arcSegment)
     {
         float segmentAngle = ringData.angleSize / ringData.numSegments;
         float currAngle = 0f;

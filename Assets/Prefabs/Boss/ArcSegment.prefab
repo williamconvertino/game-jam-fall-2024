@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e90f81c7b98e52740b04ae3482e58a26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generateTexture: 0
   rockSprites:
   - {fileID: 484575272, guid: 6e375c9d78071dc4a907cf1ae2cfa875, type: 3}
   - {fileID: 484575272, guid: 6e375c9d78071dc4a907cf1ae2cfa875, type: 3}
@@ -59,6 +60,7 @@ MonoBehaviour:
   rockNoise: 1
   rockBaseColor: {r: 1, g: 1, b: 1, a: 0}
   rockColorNoise: 0.1
+  meshMaterial: {fileID: 0}
   segments: 10
   innerRadius: 0.5
   outerRadius: 1
@@ -92,7 +94,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 28fe98988d6ecec4085692ca6668c0a9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

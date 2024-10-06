@@ -15,6 +15,7 @@ public class CircleSegment : MonoBehaviour
     public float rockNoise;
     public Color rockBaseColor;
     public float rockColorNoise;
+    public Material meshMaterial;
     
     [Header("Calculations")]
     public int segments;
@@ -40,7 +41,6 @@ public class CircleSegment : MonoBehaviour
         else
         {
             meshRenderer.enabled = true;
-            
         }
     }
 
