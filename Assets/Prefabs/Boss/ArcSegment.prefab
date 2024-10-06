@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3073487634194015987}
   - component: {fileID: 486499451194675378}
   - component: {fileID: 5192652081570488641}
+  - component: {fileID: 2800110654043549827}
   m_Layer: 0
   m_Name: ArcSegment
   m_TagString: Untagged
@@ -157,3 +158,16 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &2800110654043549827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416548367514801169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464a28e26bd2a1a4cbbf892b14a68c88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
