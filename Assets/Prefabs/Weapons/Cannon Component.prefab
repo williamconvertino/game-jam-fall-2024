@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 266184992653369043}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.163, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 2425026611901939372}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.193, z: 0}
+  m_LocalPosition: {x: 0, y: 0.044, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 4818636363005465066}
   - component: {fileID: 6185896275494058773}
   m_Layer: 0
-  m_Name: Gun Component
+  m_Name: Cannon Component
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -136,7 +136,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1957638177
-  m_SortingLayer: -9
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f209159c9f32b0e4ca1068254fedb7ef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -168,7 +168,7 @@ MonoBehaviour:
   currentHealth: 0
   sprite: {fileID: 0}
   ParentShip: {fileID: 0}
-  FireKey: 122
+  FireKey: 49
 --- !u!65 &6185896275494058773
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -263,9 +263,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingLayerID: 2071897675
+  m_SortingLayer: 8
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 36cc22ba71dfec44990443243f38cc88, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
