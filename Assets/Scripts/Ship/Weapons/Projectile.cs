@@ -38,6 +38,7 @@ public class Projectile : MonoBehaviour
         if (enemy != null)
         {
             enemy.ApplyDamage(_damage);
+            HitFXSingleton.Instance.SpawnHitFX(collision.GetContact(0).point);
         }
         else print("projectile collided with a non-enemy");
 
