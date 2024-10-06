@@ -5,7 +5,7 @@ public class PilotComponent : ShipComponent
     [SerializeField] private float _forwardThrust = 0.0f;
     [SerializeField] private float _backwardThrust = 0.0f;
     
-    [SerializeField] private float _turnSpeed = 1.0f;
+    [SerializeField] private float _turnSpeed = 0.0f;
 
     protected override void Update()
     {
