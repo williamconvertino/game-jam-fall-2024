@@ -268,7 +268,7 @@ public class Ship : Entity
         {
             buildingManager.inventories[part.partIndex] += 1;
             Debug.Log(part.partIndex);
+            Destroy(part.gameObject);
         }
-        Destroy(part.gameObject);
     }
 }
