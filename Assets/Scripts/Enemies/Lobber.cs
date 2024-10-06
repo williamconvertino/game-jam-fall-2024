@@ -22,7 +22,7 @@ public class Lobber : Enemy
 
     [SerializeField] private string[] _tagsToIgnore;
 
-    void Start()
+    protected override void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }

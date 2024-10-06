@@ -9,7 +9,7 @@ public abstract class Enemy : Entity
 
     protected Ship PlayerShip;
     protected Transform Target;
-    protected void Start()
+    protected virtual void Start()
     {
         PlayerShip = GameManager.Instance.PlayerShip;
         Target = PlayerShip.transform;
