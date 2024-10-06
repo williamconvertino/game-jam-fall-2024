@@ -261,4 +261,14 @@ public class Ship : Entity
             }
         }
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        PartPickup part = other.GetComponent<PartPickup>();
+        if (part != null)
+        {
+            buildingManager.inventories[part.partIndex] += 1;
+            Debug.Log(part.partIndex);
+        }
+        Destroy(part.gameObject);
+    }
 }
