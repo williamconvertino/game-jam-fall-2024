@@ -16,7 +16,7 @@ public class Boss1Behavior : MonoBehaviour
     public float idleSpinSpeed = 1f;
 
     [Header("Head Laser")]
-    public Transform player;
+    private Transform player;
     public Transform headParent;
     public Transform head;
     public LineRenderer laser;
@@ -55,10 +55,7 @@ public class Boss1Behavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameManager.Instance != null)
-        {
-            player = GameManager.Instance.PlayerShip.transform;
-        }
+        player = GameManager.Instance.PlayerShip.transform;
         SpawnDefensiveRing();
         _laserTrackingBeam = head.gameObject.GetComponent<LineRenderer>();
         _laserTrackingBeam.positionCount = 2;
