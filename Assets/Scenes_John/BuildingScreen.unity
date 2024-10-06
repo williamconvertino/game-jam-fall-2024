@@ -1042,9 +1042,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3690975485482477421, guid: 3d7b2af6641b1864e8cb941364f668a6, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 3690975485482477421, guid: 3d7b2af6641b1864e8cb941364f668a6, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 3690975485482477421, guid: 3d7b2af6641b1864e8cb941364f668a6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3690975485482477421, guid: 3d7b2af6641b1864e8cb941364f668a6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4044637129059020726, guid: 3d7b2af6641b1864e8cb941364f668a6, type: 3}
       propertyPath: m_Name
       value: NeededSystems
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708506174394382100, guid: 3d7b2af6641b1864e8cb941364f668a6, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708506174394382100, guid: 3d7b2af6641b1864e8cb941364f668a6, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708506174394382100, guid: 3d7b2af6641b1864e8cb941364f668a6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708506174394382100, guid: 3d7b2af6641b1864e8cb941364f668a6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
