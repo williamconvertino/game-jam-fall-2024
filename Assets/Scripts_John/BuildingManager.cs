@@ -16,11 +16,11 @@ public class BuildingManager : MonoBehaviour
     public bool SHOULD_SMART_ROTATE = true;
     
     [Header("Prefabs")]
-    public Ship shipPrefab;
-    private Ship parentShip;
+    public Ship parentShip;
     public GameObject[] placedObjectPrefabs;
     public GameObject[,] placedObjects;
-    public Canvas canvas;
+    public GameObject buildingUI;
+    public GameObject gameplayUI;
     public GameObject grid;
 
     int GRID_SIZE = 7;
@@ -38,6 +38,7 @@ public class BuildingManager : MonoBehaviour
     float FACING_LEFT_ANGLE = 90f;
     int prevGridX = -1;
     int prevGridY = -1;
+    bool isBuilding = true;
 
     // Start is called before the first frame update
     void Start()
@@ -56,93 +57,100 @@ public class BuildingManager : MonoBehaviour
                 placedObjects[i,j] = null;
             }
         }
-        
-        Initialize(Instantiate(shipPrefab));
-    }
-    
-    public void Initialize(Ship newParentShip)
-    {
-        if (parentShip != newParentShip)
-        {
-            Destroy(parentShip);
-            parentShip = newParentShip;
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        float posX = Mathf.Floor(mouseWorldPos.x / SPRITE_WIDTH + 0.5f) * SPRITE_WIDTH;
-        float posY = Mathf.Floor(mouseWorldPos.y / SPRITE_WIDTH + 0.5f) * SPRITE_WIDTH;
-        int gridX = Mathf.RoundToInt((posX + (GRID_SIZE / 2) * SPRITE_WIDTH) / SPRITE_WIDTH);
-        int gridY = Mathf.RoundToInt((-posY + (GRID_SIZE / 2) * SPRITE_WIDTH) / SPRITE_WIDTH);
-        bool mouseInGrid = (gridX > -1 && gridX < GRID_SIZE && gridY > -1 && gridY < GRID_SIZE);
-        if (gridX != prevGridX || gridY != prevGridY)
+        if (isBuilding)
         {
-            mouseMarker.transform.position = new Vector3(posX, posY);
-            if (mouseInGrid)
+            mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //Vector3 gridOffset = grid.transform.position - new Vector3(Mathf.Floor(grid.transform.position.x), Mathf.Floor(grid.transform.position.y), grid.transform.position.z);
+            mouseWorldPos -= grid.transform.position;
+            float posX = Mathf.Floor(mouseWorldPos.x / SPRITE_WIDTH + 0.5f) * SPRITE_WIDTH;
+            float posY = Mathf.Floor(mouseWorldPos.y / SPRITE_WIDTH + 0.5f) * SPRITE_WIDTH;
+            int gridX = Mathf.RoundToInt((posX + (GRID_SIZE / 2) * SPRITE_WIDTH) / SPRITE_WIDTH);
+            int gridY = Mathf.RoundToInt((-posY + (GRID_SIZE / 2) * SPRITE_WIDTH) / SPRITE_WIDTH);
+            bool mouseInGrid = (gridX > -1 && gridX < GRID_SIZE && gridY > -1 && gridY < GRID_SIZE);
+            if (gridX != prevGridX || gridY != prevGridY)
             {
-                if (!isMouseMarkerRotationValid(gridX, gridY))
+                mouseMarker.transform.localPosition = new Vector3(posX, posY, 2); //+ gridOffset;
+                if (mouseInGrid)
+                {
+                    if (!isMouseMarkerRotationValid(gridX, gridY))
+                    {
+                        attemptToRotateMouseMarkerToValidPosition(gridX, gridY);
+                    }
+                }
+                prevGridX = gridX;
+                prevGridY = gridY;
+            }
+
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                if (isMouseMarkerRotationValid(gridX, gridY))
                 {
                     attemptToRotateMouseMarkerToValidPosition(gridX, gridY);
                 }
-            }
-            prevGridX = gridX;
-            prevGridY = gridY;
-        }
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            if (isMouseMarkerRotationValid(gridX, gridY))
-            {
-                attemptToRotateMouseMarkerToValidPosition(gridX, gridY);
-            }
-            else
-            {
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, mouseMarker.transform.rotation.eulerAngles.z - 90);
-            }
-        }
-        
-        if (Input.GetMouseButton(1))
-        {
-            if (mouseInGrid)
-            {
-                Destroy(placedObjects[gridX, gridY]);
-                placedObjects[gridX, gridY] = null;
-            }
-            ///It is confusing when you erase with a brush of the same component you placed because your brush makes it look like it is still there
-            ///To fix this, we activate "eraser mode" when you erase, hiding your brush until you release right click
-            ///It's good to do this even when the mouse is outside of the grid so it looks like they enter erase mode before entering the grid
-            mouseMarker.sprite = null;
-        }
-        ///The else here means that if you press both right and left click at the same time, we default to right click and do erasing
-        ///This can be changed easily, but note that if it is changed, we will need to bring the brush back if we were in eraser mode as it currently stays hidden until right click is released
-        else if (Input.GetMouseButton(0))
-        {
-            if (mouseInGrid)
-            {
-                if (selectedIndex != -1)
+                else
                 {
-                    if (placedObjects[gridX, gridY]) //Should optimize so that we do not do anything if current tile is identical to one we are placing (rotation and index) -- currently we can needlessly delete and replace many times per second
-                    {
-                        Destroy(placedObjects[gridX, gridY]);
-                    }
-                    placedObjects[gridX, gridY] = Instantiate(placedObjectPrefabs[selectedIndex], new Vector3(posX, posY), mouseMarker.transform.rotation, parentShip.transform);
+                    mouseMarker.transform.eulerAngles = new Vector3(0, 0, mouseMarker.transform.rotation.eulerAngles.z - 90);
                 }
             }
-        }
-        if (Input.GetMouseButtonUp(1))
-        {
-            mouseMarker.sprite = mouseMarkerSprites[selectedIndex];
+
+            if (Input.GetMouseButton(1))
+            {
+                if (mouseInGrid)
+                {
+                    Destroy(placedObjects[gridX, gridY]);
+                    placedObjects[gridX, gridY] = null;
+                }
+                ///It is confusing when you erase with a brush of the same component you placed because your brush makes it look like it is still there
+                ///To fix this, we activate "eraser mode" when you erase, hiding your brush until you release right click
+                ///It's good to do this even when the mouse is outside of the grid so it looks like they enter erase mode before entering the grid
+                mouseMarker.sprite = null;
+            }
+            ///The else here means that if you press both right and left click at the same time, we default to right click and do erasing
+            ///This can be changed easily, but note that if it is changed, we will need to bring the brush back if we were in eraser mode as it currently stays hidden until right click is released
+            else if (Input.GetMouseButton(0))
+            {
+                if (mouseInGrid)
+                {
+                    if (selectedIndex != -1)
+                    {
+                        if (placedObjects[gridX, gridY]) //Should optimize so that we do not do anything if current tile is identical to one we are placing (rotation and index) -- currently we can needlessly delete and replace many times per second
+                        {
+                            Destroy(placedObjects[gridX, gridY]);
+                        }
+                        placedObjects[gridX, gridY] = Instantiate(placedObjectPrefabs[selectedIndex], new Vector3(posX, posY), mouseMarker.transform.rotation, parentShip.transform);
+                    }
+                }
+            }
+            if (Input.GetMouseButtonUp(1))
+            {
+                mouseMarker.sprite = mouseMarkerSprites[selectedIndex];
+            }
         }
     }
     public void exitBuildMode()
     {
-        canvas.gameObject.SetActive(false);
+        buildingUI.gameObject.SetActive(false);
         mouseMarker.gameObject.SetActive(false);
         grid.SetActive(false);
-        this.gameObject.SetActive(false);
+        gameplayUI.gameObject.SetActive(true);
+        isBuilding = false;
+        selectedIndex = -1;
+        mouseMarker.sprite = null;
+        Camera.main.gameObject.GetComponent<CameraFollow2D>().trackRotation = false;
+    }
+    public void enterBuildMode() //fix rotation
+    {
+        buildingUI.gameObject.SetActive(true);
+        mouseMarker.gameObject.SetActive(true);
+        grid.SetActive(true);
+        gameplayUI.gameObject.SetActive(false);
+        isBuilding = true;
+        Camera.main.gameObject.GetComponent<CameraFollow2D>().trackRotation = true;
     }
 
     public void onSelectBuildItem(int index)
