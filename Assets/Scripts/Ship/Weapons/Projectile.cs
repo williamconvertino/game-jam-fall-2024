@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour
         Vector3 velocity = direction.normalized * _speed + sourceVelocity;
         _rb2d.velocity = velocity;
     }
-    
+
     private void Update()
     {
         _lifetimeTimer += Time.deltaTime;
@@ -29,22 +29,18 @@ public class Projectile : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    public void OnCollisionEnter2D(Collision2D collision)
     {
-        // Ignore tags
-        //string tag = collision.gameObject.tag;
-        //foreach(string ignore in _tagsToIgnore)
-        //{
-        //    if (tag.Equals(ignore)) return;
-        //}
 
-        //EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
-        //if(enemy != null)
-        //{
-        //    enemy.ApplyDamage(_damage);
-        //}
+        EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
 
-        //Destroy(gameObject);
+        if (enemy != null)
+        {
+            enemy.ApplyDamage(_damage);
+        }
+        else print("projectile collided with a non-enemy");
+
+        Destroy(gameObject);
     }
 }
