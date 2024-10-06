@@ -196,6 +196,10 @@ public class BuildingManager : MonoBehaviour
     }
     public void exitBuildMode()
     {
+        parentShip.Initialize(placedObjects);
+        bool validShip = parentShip.ConstructionIsValid();
+        if (!validShip) return;
+            
         buildingUI.gameObject.SetActive(false);
         mouseMarker.gameObject.SetActive(false);
         grid.SetActive(false);
@@ -205,7 +209,10 @@ public class BuildingManager : MonoBehaviour
         mouseMarker.sprite = null;
         follow.trackRotation = false;
         follow.zoomScale = 1;
+        
+        GameManager.Instance.Unpause();
     }
+    
     public void enterBuildMode() //fix rotation
     {
         GameManager.Instance.Pause();
@@ -365,11 +372,6 @@ public class BuildingManager : MonoBehaviour
         return (x < GRID_SIZE - 1 && placedObjects[x + 1, y] != null && placedObjects[x + 1, y].tag == "Block");
     }
 
-    public void FinishShip()
-    {
-        parentShip.Initialize(placedObjects);
-        parentShip.IntegrityCheck(inBuildingMode: true);
-        GameManager.Instance.Unpause();
-    }
+    
     
 }

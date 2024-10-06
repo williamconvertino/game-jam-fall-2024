@@ -84,7 +84,19 @@ public class Ship : Entity
         Rb2d.mass = Mathf.Sqrt(ShipSize);
     }
 
-    public void IntegrityCheck(bool inBuildingMode = false)
+    public bool ConstructionIsValid()
+    {
+        int num_components = 0;
+        for (int i = 0; i < _componentGraph.GetLength(0); i++)
+        {
+            for (int j = 0; j < _componentGraph.GetLength(1); j++)
+            {
+                if (_componentGraph[i, j] != null) num_components++;
+            }
+        }
+        return num_components > 0;
+    }
+    public bool IntegrityCheck(bool inBuildingMode = false)
     {
         int n = dimensions;
         bool[,] visited = new bool[n, n];
@@ -128,17 +140,20 @@ public class Ship : Entity
                 }
             }
         }
-        print(inBuildingMode);
-        print(invalidComponents.Count);
-        print(allComponents.Count);
-        if (inBuildingMode && invalidComponents.Count == allComponents.Count) return;
+
+        int numValidComponents = allComponents.Count - invalidComponents.Count;
+        
+        if (inBuildingMode && numValidComponents == 0) return false;
         
         foreach (var component in invalidComponents)
         {
             RemoveComponent(component);
             Destroy(component.gameObject);
         }
+
+        return true;
     }
+    
 
     private void BFSVisit(Tuple<int,int> loc, bool[,] visited, int maxIndex)
     {
@@ -151,8 +166,7 @@ public class Ship : Entity
             int i = current.Item1;
             int j = current.Item2;
             visited[i, j] = true;
-            print(visited[i, j]);
-
+            
             ShipComponent currentBlock = _componentGraph[i, j];
             if (currentBlock == null)
             {
