@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GunComponent : ShipComponent
 {
-    public KeyCode FireKey = KeyCode.LeftShift;
+    public KeyCode FireKey = KeyCode.Z;
     private GunBarrel[] _barrels;
 
     private void Start()
