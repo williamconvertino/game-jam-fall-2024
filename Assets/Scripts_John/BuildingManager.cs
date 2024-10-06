@@ -208,6 +208,7 @@ public class BuildingManager : MonoBehaviour
     }
     public void enterBuildMode() //fix rotation
     {
+        GameManager.Instance.Pause();
         buildingUI.gameObject.SetActive(true);
         mouseMarker.gameObject.SetActive(true);
         grid.SetActive(true);
@@ -367,7 +368,8 @@ public class BuildingManager : MonoBehaviour
     public void FinishShip()
     {
         parentShip.Initialize(placedObjects);
-        parentShip.IntegrityCheck();
-        parentShip.Unfreeze();
+        parentShip.IntegrityCheck(inBuildingMode: true);
+        GameManager.Instance.Unpause();
     }
+    
 }

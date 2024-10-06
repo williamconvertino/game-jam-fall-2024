@@ -4,15 +4,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Lobber : MonoBehaviour
+public class Lobber : Enemy
 {
-    public GameObject target;
-
-    public float pursueRange;
-    public float closeRange;
-    public float acceleration;
-    public float decceleration;
-
+    
     public float maxVeloToFire;
     public float rateOfFire;
     private float fireCooldown = 0;
@@ -25,22 +19,15 @@ public class Lobber : MonoBehaviour
 
     [SerializeField] private string[] _tagsToIgnore;
 
-    // Start is called before the first frame update
     void Start()
     {
-        // need to give it a player to target
-
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void FixedUpdate()
     {
+        if (Frozen) return;
+        
         fireCooldown -= Time.deltaTime;
 
         Vector2 toTarget = (target.transform.position - transform.position);

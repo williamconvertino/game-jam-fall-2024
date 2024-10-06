@@ -84,12 +84,15 @@ public class Ship : Entity
         Rb2d.mass = Mathf.Sqrt(ShipSize);
     }
 
-    public void IntegrityCheck()
+    public void IntegrityCheck(bool inBuildingMode = false)
     {
         int n = dimensions;
         bool[,] visited = new bool[n, n];
 
         BFSVisit(new Tuple<int,int>(pilotRow, pilotCol), visited, n-1);
+        
+        List<ShipComponent> allComponents = new List<ShipComponent>();
+        List<ShipComponent> invalidComponents = new List<ShipComponent>();
 
         for (int i = 0; i < n; i++)
         {
@@ -98,6 +101,7 @@ public class Ship : Entity
                 if (!visited[i, j])
                 {
                     ShipComponent block = _componentGraph[i, j];
+                    allComponents.Add(block);
                     if (block != null)
                     {
                         if (buildingManager)
@@ -119,10 +123,18 @@ public class Ship : Entity
                                 buildingManager.inventories[1] += 1;
                             }
                         }
-                        block.DestroyBlock();
+                        invalidComponents.Add(block);
                     }
                 }
             }
+        }
+
+        if (inBuildingMode && invalidComponents.Count == allComponents.Count) return;
+        
+        foreach (var component in invalidComponents)
+        {
+            RemoveComponent(component);
+            Destroy(component.gameObject);
         }
     }
 

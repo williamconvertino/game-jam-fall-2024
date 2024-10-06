@@ -4,17 +4,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Grabber : MonoBehaviour
+public class Grabber : Enemy
 {
-    public GameObject target;
-
-    public float pursueRange;
-    public float closeRange;
-    public float acceleration;
-    public float decceleration;
     private Vector2 prev_error;
-
-
+    
     private Rigidbody2D rb;
 
     [SerializeField] private string[] _tagsToIgnore;
@@ -26,15 +19,11 @@ public class Grabber : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     void FixedUpdate()
     {
+        if (Frozen) return;
         Vector2 error = (target.transform.position - transform.position);
         Vector2 error_derivative = error - prev_error;
         float kp = 1f;
