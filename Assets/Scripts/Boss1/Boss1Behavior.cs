@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Boss1Behavior : MonoBehaviour
 {
+    public float damagePerSecond;
+
     [Header("Defensive Ring")]
     public Transform ringParent;
     public GameObject arcSegment;
@@ -49,6 +51,9 @@ public class Boss1Behavior : MonoBehaviour
 
     private enum BehaviorState { Idle, Tracking, Charging, Firing, Stunned, Death };
     private BehaviorState _state = BehaviorState.Idle;
+
+
+    public Collider2D laserHitbox;
 
 
 
@@ -114,6 +119,20 @@ public class Boss1Behavior : MonoBehaviour
                 break;
             case BehaviorState.Firing:
                 _timeSinceLaser += Time.deltaTime;
+                Collider2D[] results = new Collider2D[16];
+                laserHitbox.OverlapCollider(new ContactFilter2D(), results);
+                for(int i = 1; i < results.Length; i++)
+                {
+                    if (results[i] == null) break;
+
+                    ShipComponent block = results[i].gameObject.GetComponent<ShipComponent>();
+
+                    if (block != null)
+                    {
+                        block.TakeDamage(damagePerSecond * Time.deltaTime);
+                    }
+                    else print("enemy laser collided with a non-block");
+                }
                 break;
             case BehaviorState.Stunned:
                 break;

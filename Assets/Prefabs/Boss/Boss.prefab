@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1833054414702918972}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 1556570088115612600}
   - component: {fileID: 1786549412682261105}
   - component: {fileID: 7612763603914089038}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Charging VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4871,7 +4871,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1678036238138394020}
   - component: {fileID: 4693027110357153448}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Pre Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4957,7 +4957,7 @@ GameObject:
   - component: {fileID: 419153657699605886}
   - component: {fileID: 3155376898427901544}
   - component: {fileID: 3965712069543258095}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Heart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5079,6 +5079,83 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!1 &5034796968483375992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5338928235235590827}
+  - component: {fileID: 5976127381698119838}
+  m_Layer: 7
+  m_Name: Laser Hitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5338928235235590827
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5034796968483375992}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3085634405911383822}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &5976127381698119838
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5034796968483375992}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 53, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 100, y: 0.3}
+  m_EdgeRadius: 0
 --- !u!1 &5232823880970981749
 GameObject:
   m_ObjectHideFlags: 0
@@ -5088,7 +5165,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3085634405911383822}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HeadParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5109,6 +5186,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4042954853891978294}
+  - {fileID: 5338928235235590827}
   m_Father: {fileID: 2492620824428763740}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6177314638111265813
@@ -5121,7 +5199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2492620824428763740}
   - component: {fileID: 7762068355835320469}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -5158,6 +5236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89e2e28fd0db474d8cc320dd292a437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damagePerSecond: 50
   ringParent: {fileID: 1833054414702918972}
   arcSegment: {fileID: 4416548367514801169, guid: fe367d3b82fccb741adedd78a91f220b, type: 3}
   angleSize: 300
@@ -5188,6 +5267,7 @@ MonoBehaviour:
   preLaserLockOnPulseSpeed: 30
   preLaserFinalSize: 1.2
   preLaserPulseEffectSize: 0.2
+  laserHitbox: {fileID: 5976127381698119838}
 --- !u!1 &7542693198079687816
 GameObject:
   m_ObjectHideFlags: 0
@@ -5198,7 +5278,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5537702562504021260}
   - component: {fileID: 9062117872364847165}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5335,7 +5415,7 @@ GameObject:
   - component: {fileID: 4042954853891978294}
   - component: {fileID: 8980222236371024196}
   - component: {fileID: 1242301116569649629}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
