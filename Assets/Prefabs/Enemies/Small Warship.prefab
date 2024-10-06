@@ -108,6 +108,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 8
+  drops:
+  - {fileID: 1670310710399065519, guid: 66c1c478d39e0a6449774bc1dca1754b, type: 3}
+  - {fileID: 1225096080375298203, guid: 77f991fce9a5cc74e82f65ba60107427, type: 3}
+  - {fileID: 6648494272308171221, guid: b7c29a20a73ea7a43914b598b266c53c, type: 3}
 --- !u!1001 &257172475032703464
 PrefabInstance:
   m_ObjectHideFlags: 0

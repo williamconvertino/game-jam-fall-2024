@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (var entity in _entities)
         {
-            entity.Freeze();
+            if (entity != null) entity.Freeze();
         }   
     }
     
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (var entity in _entities)
         {
-            entity.Unfreeze();
+            if (entity != null) entity.Unfreeze();
         }
     }
 }
