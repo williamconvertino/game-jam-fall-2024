@@ -151,11 +151,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7acda85a9e37b40adaf436e6231958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectilePrefab: {fileID: 3313688669294642111, guid: ba882e0f0ebea7f4b8f5a200a6611434, type: 3}
+  _projectilePrefab: {fileID: 3313688669294642111, guid: 89a7b4bf177fb0c44a7ea05899a3cedd, type: 3}
   _cooldown: 0.5
   _firePoint: {fileID: 3782334788151922262}
   _fireDirection: {fileID: 2768794717447049669}
   _tagsToIgnore: []
+  Source: {fileID: 0}
   InRange: 0
 --- !u!1 &2507327942098613303
 GameObject:
