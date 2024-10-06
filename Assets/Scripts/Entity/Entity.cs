@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour
 {
     public bool Frozen = true;
     private bool _wasFrozen = false;

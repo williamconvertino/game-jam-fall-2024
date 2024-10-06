@@ -46,10 +46,6 @@ public class ShipComponent : MonoBehaviour
         {
             sprite.color = Color.white;
         }
-    }
-
-    protected virtual void FixedUpdate()
-    {
         if (currentHealth <= 0)
         {
             ParentShip.RemoveComponent(GetComponent<ShipComponent>());

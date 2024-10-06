@@ -19,8 +19,9 @@ public class GunComponent : ShipComponent
         }
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (Frozen)
         {
             return;

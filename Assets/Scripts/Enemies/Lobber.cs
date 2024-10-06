@@ -10,6 +10,9 @@ public class Lobber : Enemy
     public float maxVeloToFire;
     public float rateOfFire;
     private float fireCooldown = 0;
+    public float closeRange;
+    public float acceleration;
+    public float decceleration;
 
     public float bulletVelo;
 
@@ -30,10 +33,10 @@ public class Lobber : Enemy
         
         fireCooldown -= Time.deltaTime;
 
-        Vector2 toTarget = (target.transform.position - transform.position);
+        Vector2 toTarget = (Target.transform.position - transform.position);
 
         // If out of range, just slow to a halt
-        if (toTarget.magnitude > pursueRange)
+        if (toTarget.magnitude > PursueRange)
         {
             rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, decceleration * Time.deltaTime);
             return;
