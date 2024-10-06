@@ -17,6 +17,7 @@ public class EnemyHealth : MonoBehaviour
 
     private void BlowUp()
     {
+        HitFXSingleton.Instance.SpawnDeathFX(transform.position);
         Destroy(gameObject);
     }
 }

@@ -37,6 +37,7 @@ public class EnemyProjectile : MonoBehaviour
 
         if (block != null)
         {
+            HitFXSingleton.Instance.SpawnHitFX(collision.GetContact(0).point);
             block.TakeDamage(_damage);
             Destroy(gameObject);
         }
