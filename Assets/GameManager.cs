@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public Ship playerShip;
     private Entity[] _entities;
 
     public GameObject[] activateOnStart;

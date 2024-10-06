@@ -6,7 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(EdgeCollider2D))]
 public class CircleSegment : MonoBehaviour
 {
-    [Header("Texture Generation")]
+    [Header("Texture Generation")] 
+    public bool generateTexture = false;
     public Sprite[] rockSprites;
     public float rockSizeMin;
     public float rockSizeMax;
@@ -23,13 +24,24 @@ public class CircleSegment : MonoBehaviour
     public float endAngle;
 
     private EdgeCollider2D edgeCollider;
+    private MeshRenderer meshRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
         edgeCollider = GetComponent<EdgeCollider2D>();
         GenerateArc();
-        GenerateRockBelt();
+        meshRenderer = GetComponent<MeshRenderer>();
+        if (generateTexture)
+        {
+            meshRenderer.enabled = false;
+            GenerateRockBelt();
+        }
+        else
+        {
+            meshRenderer.enabled = true;
+            
+        }
     }
 
     private void GenerateArc()

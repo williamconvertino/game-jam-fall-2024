@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 795a7a0c1154c784fa097aa25b1210f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arcSegment: {fileID: 4416548367514801169, guid: fe367d3b82fccb741adedd78a91f220b, type: 3}
+  arcSegment: {fileID: 4416548367514801169, guid: 3b930457dbd53784a8c80f98f525491d, type: 3}
   outerRing: {fileID: 5049717783467156709}
   outerRingData:
     radius: 45

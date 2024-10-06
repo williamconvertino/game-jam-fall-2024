@@ -211,7 +211,6 @@ public class BuildingManager : MonoBehaviour
         follow.zoomScale = 1;
         
         GameManager.Instance.Unpause();
-        parentShip.IntegrityCheck();
     }
     
     public void enterBuildMode() //fix rotation

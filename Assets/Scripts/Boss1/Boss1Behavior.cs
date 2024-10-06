@@ -42,6 +42,10 @@ public class Boss1Behavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (GameManager.Instance != null)
+        {
+            player = GameManager.Instance.playerShip.transform;
+        }
         SpawnDefensiveRing();
         _laserTrackingBeam = head.gameObject.GetComponent<LineRenderer>();
         _laserTrackingBeam.positionCount = 2;
