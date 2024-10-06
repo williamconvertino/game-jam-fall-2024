@@ -86,15 +86,20 @@ public class Ship : Entity
 
     public bool ConstructionIsValid()
     {
+        bool hasPilot = false;
         int num_components = 0;
         for (int i = 0; i < _componentGraph.GetLength(0); i++)
         {
             for (int j = 0; j < _componentGraph.GetLength(1); j++)
             {
                 if (_componentGraph[i, j] != null) num_components++;
+                if (_componentGraph[i, j] != null && _componentGraph[i, j].GetComponent<PilotComponent>() != null)
+                {
+                    hasPilot = true;
+                }
             }
         }
-        return num_components > 0;
+        return num_components > 0 && hasPilot;
     }
     public bool IntegrityCheck(bool inBuildingMode = false)
     {
