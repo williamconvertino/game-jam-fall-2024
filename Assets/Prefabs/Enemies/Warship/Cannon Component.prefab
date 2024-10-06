@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 4171524296329585257}
   - component: {fileID: 413177190045513330}
   - component: {fileID: 94861162270230608}
+  - component: {fileID: 939421034409656951}
   m_Layer: 0
   m_Name: Cannon Component
   m_TagString: Untagged
@@ -138,6 +139,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.14843072, y: 0.27965024, z: 0.2}
   m_Center: {x: 0, y: -0.015174806, z: 0}
+--- !u!114 &939421034409656951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184274773820627809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd7acda85a9e37b40adaf436e6231958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectilePrefab: {fileID: 3313688669294642111, guid: ba882e0f0ebea7f4b8f5a200a6611434, type: 3}
+  _cooldown: 0.5
+  _firePoint: {fileID: 3782334788151922262}
+  _fireDirection: {fileID: 2768794717447049669}
+  _tagsToIgnore: []
+  InRange: 0
 --- !u!1 &2507327942098613303
 GameObject:
   m_ObjectHideFlags: 0
