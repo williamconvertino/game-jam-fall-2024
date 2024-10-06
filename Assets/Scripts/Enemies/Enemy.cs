@@ -12,7 +12,7 @@ public abstract class Enemy : Entity
 
     protected void Start()
     {
-        PlayerShip = GameManager.Instance.playerShip;
+        PlayerShip = GameManager.Instance.PlayerShip;
         Target = PlayerShip.transform;
     }
 

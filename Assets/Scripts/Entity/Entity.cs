@@ -13,6 +13,9 @@ public abstract class Entity : MonoBehaviour
     protected void Awake()
     {
         Rb2d = GetComponent<Rigidbody2D>();
+        Rb2d.drag = GameManager.Instance.BaseRb2d.drag;
+        Rb2d.angularDrag = GameManager.Instance.BaseRb2d.angularDrag;
+        Rb2d.gravityScale = GameManager.Instance.BaseRb2d.gravityScale;
     }
 
     protected void Update()

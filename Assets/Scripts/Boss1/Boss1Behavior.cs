@@ -44,7 +44,7 @@ public class Boss1Behavior : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            player = GameManager.Instance.playerShip.transform;
+            player = GameManager.Instance.PlayerShip.transform;
         }
         SpawnDefensiveRing();
         _laserTrackingBeam = head.gameObject.GetComponent<LineRenderer>();

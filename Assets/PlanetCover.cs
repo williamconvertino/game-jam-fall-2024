@@ -13,7 +13,7 @@ public class PlanetCover : MonoBehaviour
     public void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _playerShip = GameManager.Instance.playerShip;
+        _playerShip = GameManager.Instance.PlayerShip;
     }
 
     public void Update()
