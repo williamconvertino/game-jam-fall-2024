@@ -6,6 +6,16 @@ using UnityEngine;
 [RequireComponent(typeof(EdgeCollider2D))]
 public class CircleSegment : MonoBehaviour
 {
+    [Header("Texture Generation")]
+    public Sprite[] rockSprites;
+    public float rockSizeMin;
+    public float rockSizeMax;
+    public float rockDensity;
+    public float rockNoise;
+    public Color rockBaseColor;
+    public float rockColorNoise;
+    
+    [Header("Calculations")]
     public int segments;
     public float innerRadius;
     public float outerRadius;
@@ -19,6 +29,7 @@ public class CircleSegment : MonoBehaviour
     {
         edgeCollider = GetComponent<EdgeCollider2D>();
         GenerateArc();
+        GenerateRockBelt();
     }
 
     private void GenerateArc()
@@ -87,9 +98,43 @@ public class CircleSegment : MonoBehaviour
         edgeCollider.points = innerArc.ToArray();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void GenerateRockBelt()
     {
-        
+        int rockCount = (int)(segments * rockDensity);
+        for (int i = 0; i < rockCount; i++)
+        {
+            // Random angle between start and end angle
+            float angle = Random.Range(startAngle, endAngle) * Mathf.Deg2Rad;
+
+            // Random radius between inner and outer radii
+            float radius = Random.Range(innerRadius, outerRadius);
+
+            // Base position along the arc
+            Vector2 unitPos = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+            Vector2 basePosition = unitPos * radius;
+
+            // Add noise to the position
+            Vector2 noise = new Vector2(Random.Range(-rockNoise, rockNoise), Random.Range(-rockNoise, rockNoise));
+            Vector2 finalPosition = basePosition + noise;
+
+            // Create a new GameObject for the rock sprite
+            GameObject rock = new GameObject("RockSprite");
+            SpriteRenderer renderer = rock.AddComponent<SpriteRenderer>();
+            renderer.sprite = rockSprites[Random.Range(0, rockSprites.Length)];
+            renderer.color = new Color(rockBaseColor.r,
+                rockBaseColor.g,
+                rockBaseColor.b + Random.Range(-rockColorNoise, rockColorNoise));
+            // Vary the size of the sprite
+            float randomScale = Random.Range(rockSizeMin, rockSizeMax);
+            rock.transform.localScale = new Vector3(randomScale, randomScale, 1f);
+
+            // Convert local finalPosition to world position (relative to the arc's transform)
+            rock.transform.position = transform.TransformPoint(finalPosition);
+
+            // Make the rock a child of the current GameObject for better organization
+            rock.transform.SetParent(transform);
+        }
     }
+
+
 }

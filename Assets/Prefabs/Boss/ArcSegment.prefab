@@ -47,6 +47,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e90f81c7b98e52740b04ae3482e58a26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rockSprites:
+  - {fileID: 484575272, guid: 6e375c9d78071dc4a907cf1ae2cfa875, type: 3}
+  - {fileID: 484575272, guid: 6e375c9d78071dc4a907cf1ae2cfa875, type: 3}
+  - {fileID: -1287501275, guid: 6e375c9d78071dc4a907cf1ae2cfa875, type: 3}
+  - {fileID: -962401414, guid: 6e375c9d78071dc4a907cf1ae2cfa875, type: 3}
+  - {fileID: -1894674209, guid: 6e375c9d78071dc4a907cf1ae2cfa875, type: 3}
+  rockSizeMin: 0.8
+  rockSizeMax: 1.2
+  rockDensity: 7
+  rockNoise: 1
+  rockBaseColor: {r: 1, g: 1, b: 1, a: 0}
+  rockColorNoise: 0.1
   segments: 10
   innerRadius: 0.5
   outerRadius: 1
@@ -67,7 +79,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4416548367514801169}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
