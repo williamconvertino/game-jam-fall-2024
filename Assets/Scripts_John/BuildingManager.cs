@@ -302,6 +302,8 @@ public class BuildingManager : MonoBehaviour
     public void FinishShip()
     {
         parentShip.Initialize(placedObjects);
+        parentShip.IntegrityCheck();
         parentShip.Unfreeze();
+
     }
 }

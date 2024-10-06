@@ -2,6 +2,9 @@
 
 public class ShipComponent : MonoBehaviour
 {
+    public bool[] connections;
+    public int direction;
+
     public float Mass = 1.0f;
     public bool Frozen = true;
 
@@ -13,14 +16,17 @@ public class ShipComponent : MonoBehaviour
 
     [HideInInspector] public Ship ParentShip;
 
-    public void Start()
+    public virtual void Start()
     {
+        currentHealth = maxHealth;
         sprite = GetComponent<SpriteRenderer>();
+        connections = new bool[]{ true, true, true, true};
     }
 
     public virtual void Initialize(Ship parentShip)
     {
         currentHealth = maxHealth;
+        direction = Mathf.RoundToInt(transform.rotation.eulerAngles.z) / 90;
         ParentShip = parentShip;
     }
 
@@ -42,14 +48,47 @@ public class ShipComponent : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    protected virtual void FixedUpdate()
     {
-        currentHealth = Mathf.Max(currentHealth - damage, 0);
-
         if (currentHealth <= 0)
         {
-            // this block is destroyed
+            ParentShip.RemoveComponent(GetComponent<ShipComponent>());
+            Destroy(gameObject);
         }
     }
 
+    public void TakeDamage(float damage)
+    {
+        currentHealth = Mathf.Max(currentHealth - damage, 0);
+    }
+
+    private void OnDestroy()
+    {
+        if(ParentShip != null) ParentShip.IntegrityCheck();
+    }
+
+    public void DestroyBlock()
+    {
+        Destroy(gameObject);
+    }
+
+    public bool CanConnectUp()
+    {
+        return connections[direction % 4];
+    }
+
+    public bool CanConnectRight()
+    {
+        return connections[(direction + 1) % 4];
+    }
+
+    public bool CanConnectDown()
+    {
+        return connections[(direction + 2) % 4];
+    }
+
+    public bool CanConnectLeft()
+    {
+        return connections[(direction + 3) % 4];
+    }
 }

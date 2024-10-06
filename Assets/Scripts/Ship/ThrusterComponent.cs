@@ -6,6 +6,16 @@ public class ThrusterComponent : ShipComponent
     [SerializeField] private float _backwardThrust = 0.0f;
     private KeyCode _forwardKey = KeyCode.UpArrow;
     private KeyCode _backwardKey = KeyCode.DownArrow;
+
+
+    public override void Start()
+    {
+        base.Start();
+        connections[0] = false;
+        connections[1] = false;
+        connections[3] = false;
+    }
+
     public override void Initialize(Ship parentShip)
     {
         base.Initialize(parentShip);

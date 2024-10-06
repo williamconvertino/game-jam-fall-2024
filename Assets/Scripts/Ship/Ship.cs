@@ -1,12 +1,23 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
+
 public class Ship : Entity
 {
     [HideInInspector] public int ShipSize = 0; 
     private ShipComponent[] _childrenComponents = new ShipComponent[] { };
     private ShipComponent[,] _componentGraph;
+    public int pilotRow;
+    public int pilotCol;
+    
+    private const int dimensions = 7;
+
     private void Start()
     {
-        Initialize(new ShipComponent[,]{});
+        Initialize(new ShipComponent[dimensions,dimensions]);
         if (!Frozen)
         {
             Unfreeze();
@@ -16,6 +27,7 @@ public class Ship : Entity
     public void Initialize(ShipComponent[,] componentGraph)
     {
         _componentGraph = componentGraph;
+        FindPilot();
         InitializeComponents();
         CalculateMass();
     }
@@ -67,5 +79,136 @@ public class Ship : Entity
         }
 
         Rb2d.mass = Mathf.Sqrt(ShipSize);
+    }
+
+    public void IntegrityCheck()
+    {
+        int n = dimensions;
+        bool[,] visited = new bool[n, n];
+
+        BFSVisit(new Tuple<int,int>(pilotRow, pilotCol), visited, n-1);
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (!visited[i, j])
+                {
+                    ShipComponent block = _componentGraph[i, j];
+                    if (block != null)
+                    {
+                        block.DestroyBlock();
+                    }
+                }
+            }
+        }
+    }
+
+    private void BFSVisit(Tuple<int,int> loc, bool[,] visited, int maxIndex)
+    {
+        Stack < Tuple<int, int> > stack = new Stack<Tuple<int,int>>();
+        stack.Push(loc);
+
+        while (stack.Count > 0)
+        {
+            Tuple<int, int> current = stack.Pop();
+            int i = current.Item1;
+            int j = current.Item2;
+            visited[i, j] = true;
+            print(visited[i, j]);
+
+            ShipComponent currentBlock = _componentGraph[i, j];
+            if (currentBlock == null)
+            {
+                continue;
+            }
+
+            if (i > 0)
+            {
+                // check left
+                ShipComponent leftBlock = _componentGraph[i - 1, j];
+                if (visited[i-1, j] == false && leftBlock != null && currentBlock.CanConnectLeft() && leftBlock.CanConnectRight())
+                {
+                    stack.Push(new Tuple<int, int>(i - 1, j));
+                    visited[i - 1, j] = true;
+                }
+            }
+
+            if (i < maxIndex)
+            {
+                // check right
+                ShipComponent rightBlock = _componentGraph[i + 1, j];
+                if (visited[i + 1, j] == false && rightBlock != null && currentBlock.CanConnectRight() && rightBlock.CanConnectLeft())
+                {
+                    stack.Push(new Tuple<int, int>(i + 1, j));
+                    visited[i + 1, j] = true;
+                }
+            }
+
+            if (j > 0)
+            {
+                // check up
+                ShipComponent upBlock = _componentGraph[i, j-1];
+                if (visited[i, j-1] == false &&  upBlock != null && currentBlock.CanConnectUp() && upBlock.CanConnectDown())
+                {
+                    stack.Push(new Tuple<int, int>(i, j-1));
+                    visited[i, j-1] = true;
+                }
+            }
+
+            if (j < maxIndex)
+            {
+                // check down
+                ShipComponent downBlock = _componentGraph[i, j+1];
+                if (visited[i, j + 1] == false && downBlock != null && currentBlock.CanConnectDown() && downBlock.CanConnectUp())
+                {
+                    stack.Push(new Tuple<int, int>(i, j + 1));
+                    visited[i, j + 1] = true;
+                }
+            }
+        }
+    }
+
+    private void FindPilot()
+    {
+        int n = dimensions;
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                ShipComponent block = _componentGraph[i, j];
+                if (block != null)
+                {
+                    if (block.GetComponent<PilotComponent>() != null)
+                    {
+                        pilotRow = i;
+                        pilotCol = j;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public void RemoveComponent(ShipComponent component)
+    {
+        int n = dimensions;
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                ShipComponent block = _componentGraph[i, j];
+                if (block != null)
+                {
+                    if (block == component)
+                    {
+                        _componentGraph[i, j] = null;
+                        return;
+                    }
+                }
+            }
+        }
     }
 }
