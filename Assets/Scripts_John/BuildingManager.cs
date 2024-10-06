@@ -67,6 +67,10 @@ public class BuildingManager : MonoBehaviour
             mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //Vector3 gridOffset = grid.transform.position - new Vector3(Mathf.Floor(grid.transform.position.x), Mathf.Floor(grid.transform.position.y), grid.transform.position.z);
             mouseWorldPos -= grid.transform.position;
+            float angle = -Camera.main.transform.rotation.eulerAngles.z;
+            mouseWorldPos = new Vector3(mouseWorldPos.x*Mathf.Cos(angle) - mouseWorldPos.y * Mathf.Sin(angle),
+                mouseWorldPos.x * Mathf.Sin(angle) + mouseWorldPos.y * Mathf.Cos(angle), 0);
+
             float posX = Mathf.Floor(mouseWorldPos.x / SPRITE_WIDTH + 0.5f) * SPRITE_WIDTH;
             float posY = Mathf.Floor(mouseWorldPos.y / SPRITE_WIDTH + 0.5f) * SPRITE_WIDTH;
             int gridX = Mathf.RoundToInt((posX + (GRID_SIZE / 2) * SPRITE_WIDTH) / SPRITE_WIDTH);
@@ -120,7 +124,7 @@ public class BuildingManager : MonoBehaviour
                     {
                         if (placedObjects[gridX, gridY]) //Should optimize so that we do not do anything if current tile is identical to one we are placing (rotation and index) -- currently we can needlessly delete and replace many times per second
                         {
-                            Destroy(placedObjects[gridX, gridY]);
+                            Destroy(placedObjects[gridX, gridY].gameObject);
                         }
 
                         placedObjects[gridX, gridY] =
@@ -160,7 +164,7 @@ public class BuildingManager : MonoBehaviour
     {
         selectedIndex = index;
         mouseMarker.sprite = mouseMarkerSprites[index];
-        mouseMarker.gameObject.transform.rotation = Quaternion.identity;
+        mouseMarker.gameObject.transform.localRotation = Quaternion.identity;
     }
     /// <summary>
     /// Returns true if mouse marker rotation is valid, false otherwise
