@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,6 +15,8 @@ public class Ship : Entity
     public int pilotCol;
     
     private const int dimensions = 7;
+
+    public BuildingManager buildingManager;
 
     private void Start()
     {
@@ -97,6 +100,25 @@ public class Ship : Entity
                     ShipComponent block = _componentGraph[i, j];
                     if (block != null)
                     {
+                        if (buildingManager)
+                        {
+                            if (block.GetComponent<PilotComponent>() != null)
+                            {
+                                buildingManager.inventories[0] += 1;
+                            }
+                            else if (block.GetComponent<GunComponent>() != null)
+                            {
+                                buildingManager.inventories[3] += 1;
+                            }
+                            else if (block.GetComponent<ThrusterComponent>() != null)
+                            {
+                                buildingManager.inventories[2] += 1;
+                            }
+                            else //There is no other way to check for hull component! :(
+                            {
+                                buildingManager.inventories[1] += 1;
+                            }
+                        }
                         block.DestroyBlock();
                     }
                 }

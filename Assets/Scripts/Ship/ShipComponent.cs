@@ -26,7 +26,7 @@ public class ShipComponent : MonoBehaviour
     public virtual void Initialize(Ship parentShip)
     {
         currentHealth = maxHealth;
-        direction = Mathf.RoundToInt(transform.rotation.eulerAngles.z) / 90;
+        direction = Mathf.RoundToInt(transform.localEulerAngles.z) / 90;
         ParentShip = parentShip;
     }
 

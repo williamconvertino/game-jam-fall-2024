@@ -33,18 +33,18 @@ public class Projectile : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Ignore tags
-        string tag = collision.gameObject.tag;
-        foreach(string ignore in _tagsToIgnore)
-        {
-            if (tag.Equals(ignore)) return;
-        }
+        //string tag = collision.gameObject.tag;
+        //foreach(string ignore in _tagsToIgnore)
+        //{
+        //    if (tag.Equals(ignore)) return;
+        //}
 
-        EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
-        if(enemy != null)
-        {
-            enemy.ApplyDamage(_damage);
-        }
+        //EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
+        //if(enemy != null)
+        //{
+        //    enemy.ApplyDamage(_damage);
+        //}
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }

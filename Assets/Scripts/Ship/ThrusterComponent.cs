@@ -6,7 +6,9 @@ public class ThrusterComponent : ShipComponent
     [SerializeField] private float _backwardThrust = 0.0f;
     private KeyCode _forwardKey = KeyCode.UpArrow;
     private KeyCode _backwardKey = KeyCode.DownArrow;
-
+    
+    public Sprite thrusterOnSprite;
+    public Sprite thrusterOffSprite;
 
     public override void Start()
     {
@@ -57,6 +59,11 @@ public class ThrusterComponent : ShipComponent
         if (Input.GetKey(_forwardKey))
         {
             ParentShip.Thrust(_forwardThrust, -transform.up, transform.position);
+            sprite.sprite = thrusterOnSprite;
+        }
+        if (Input.GetKeyUp(_forwardKey))
+        {
+            sprite.sprite = thrusterOffSprite;
         }
         if (Input.GetKey(_backwardKey))
         {

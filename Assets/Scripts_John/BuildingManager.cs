@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,9 +21,13 @@ public class BuildingManager : MonoBehaviour
     public Ship parentShip;
     public GameObject[] placedObjectPrefabs;
     public ShipComponent[,] placedObjects;
+
     public GameObject buildingUI;
     public GameObject gameplayUI;
     public GameObject grid;
+    public GameObject mouseMarkerProxy;
+    private CameraFollow2D follow;
+    public TextMeshProUGUI [] inventoryLabels;
 
     int GRID_SIZE = 7;
     float GRID_LEFT = -4.2f;
@@ -39,6 +45,8 @@ public class BuildingManager : MonoBehaviour
     int prevGridX = -1;
     int prevGridY = -1;
     bool isBuilding = true;
+    bool selectedComponentRotatable = false;
+    public int [] inventories;
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +65,7 @@ public class BuildingManager : MonoBehaviour
                 placedObjects[i,j] = null;
             }
         }
+        follow = Camera.main.gameObject.GetComponent<CameraFollow2D>();
     }
 
     // Update is called once per frame
@@ -64,15 +73,20 @@ public class BuildingManager : MonoBehaviour
     {
         if (isBuilding)
         {
+            selectedComponentRotatable = (selectedIndex > 1);
+            for (int i = 0; i < 4; i++)
+            {
+                inventoryLabels[i].text = "x" + inventories[i].ToString();
+            }
             mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //Vector3 gridOffset = grid.transform.position - new Vector3(Mathf.Floor(grid.transform.position.x), Mathf.Floor(grid.transform.position.y), grid.transform.position.z);
-            mouseWorldPos -= grid.transform.position;
-            float angle = -Camera.main.transform.rotation.eulerAngles.z;
-            mouseWorldPos = new Vector3(mouseWorldPos.x*Mathf.Cos(angle) - mouseWorldPos.y * Mathf.Sin(angle),
-                mouseWorldPos.x * Mathf.Sin(angle) + mouseWorldPos.y * Mathf.Cos(angle), 0);
 
-            float posX = Mathf.Floor(mouseWorldPos.x / SPRITE_WIDTH + 0.5f) * SPRITE_WIDTH;
-            float posY = Mathf.Floor(mouseWorldPos.y / SPRITE_WIDTH + 0.5f) * SPRITE_WIDTH;
+            mouseMarkerProxy.transform.position = new Vector3(mouseWorldPos.x, mouseWorldPos.y, 2);
+            
+            float mouseMarkerLocalX = mouseMarkerProxy.transform.localPosition.x;
+            float mouseMarkerLocalY = mouseMarkerProxy.transform.localPosition.y;
+
+            float posX = Mathf.Floor(mouseMarkerLocalX / SPRITE_WIDTH + 0.5f) * SPRITE_WIDTH;
+            float posY = Mathf.Floor(mouseMarkerLocalY / SPRITE_WIDTH + 0.5f) * SPRITE_WIDTH;
             int gridX = Mathf.RoundToInt((posX + (GRID_SIZE / 2) * SPRITE_WIDTH) / SPRITE_WIDTH);
             int gridY = Mathf.RoundToInt((-posY + (GRID_SIZE / 2) * SPRITE_WIDTH) / SPRITE_WIDTH);
             bool mouseInGrid = (gridX > -1 && gridX < GRID_SIZE && gridY > -1 && gridY < GRID_SIZE);
@@ -81,7 +95,7 @@ public class BuildingManager : MonoBehaviour
                 mouseMarker.transform.localPosition = new Vector3(posX, posY, 2); //+ gridOffset;
                 if (mouseInGrid)
                 {
-                    if (!isMouseMarkerRotationValid(gridX, gridY))
+                    if (selectedComponentRotatable && !isMouseMarkerRotationValid(gridX, gridY))
                     {
                         attemptToRotateMouseMarkerToValidPosition(gridX, gridY);
                     }
@@ -90,7 +104,7 @@ public class BuildingManager : MonoBehaviour
                 prevGridY = gridY;
             }
 
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+            if (selectedComponentRotatable && Input.GetKeyDown(KeyCode.RightArrow))
             {
                 if (isMouseMarkerRotationValid(gridX, gridY))
                 {
@@ -104,9 +118,26 @@ public class BuildingManager : MonoBehaviour
 
             if (Input.GetMouseButton(1))
             {
-                if (mouseInGrid)
+                if (mouseInGrid && placedObjects[gridX, gridY])
                 {
-                    Destroy(placedObjects[gridX, gridY]);
+                    if (placedObjects[gridX, gridY].GetComponent<PilotComponent>() != null)
+                    {
+                        inventories[0] += 1;
+                    }
+                    else if (placedObjects[gridX, gridY].GetComponent<GunComponent>() != null)
+                    {
+                        inventories[3] += 1;
+                    }
+                    else if (placedObjects[gridX, gridY].GetComponent<ThrusterComponent>() != null)
+                    {
+                        inventories[2] += 1;
+                    }
+                    else //There is no other way to check for hull component! :(
+                    {
+                        inventories[1] += 1;
+                    }
+                    //Destroy(placedObjects[gridX, gridY].gameObject);
+                    placedObjects[gridX, gridY].DestroyBlock();
                     placedObjects[gridX, gridY] = null;
                 }
                 ///It is confusing when you erase with a brush of the same component you placed because your brush makes it look like it is still there
@@ -124,16 +155,40 @@ public class BuildingManager : MonoBehaviour
                     {
                         if (placedObjects[gridX, gridY]) //Should optimize so that we do not do anything if current tile is identical to one we are placing (rotation and index) -- currently we can needlessly delete and replace many times per second
                         {
-                            Destroy(placedObjects[gridX, gridY].gameObject);
+                            if (placedObjects[gridX, gridY].GetComponent<PilotComponent>() != null)
+                            {
+                                inventories[0] += 1;
+                            }
+                            else if (placedObjects[gridX, gridY].GetComponent<GunComponent>() != null)
+                            {
+                                inventories[3] += 1;
+                            }
+                            else if (placedObjects[gridX, gridY].GetComponent<ThrusterComponent>() != null)
+                            {
+                                inventories[2] += 1;
+                            }
+                            else //There is no other way to check for hull component! :(
+                            {
+                                inventories[1] += 1;
+                            }
+                            //Destroy(placedObjects[gridX, gridY].gameObject);
+                            placedObjects[gridX, gridY].DestroyBlock();
                         }
 
                         placedObjects[gridX, gridY] =
-                            Instantiate(placedObjectPrefabs[selectedIndex], new Vector3(posX, posY),
+                            Instantiate(placedObjectPrefabs[selectedIndex], mouseMarker.transform.position,
                                 mouseMarker.transform.rotation, parentShip.transform).GetComponent<ShipComponent>();
+
+                        inventories[selectedIndex] -= 1;
+                        if (inventories[selectedIndex] == 0)
+                        {
+                            selectedIndex = -1;
+                            mouseMarker.sprite = null;
+                        }
                     }
                 }
             }
-            if (Input.GetMouseButtonUp(1))
+            if (Input.GetMouseButtonUp(1) && selectedIndex != -1)
             {
                 mouseMarker.sprite = mouseMarkerSprites[selectedIndex];
             }
@@ -148,7 +203,8 @@ public class BuildingManager : MonoBehaviour
         isBuilding = false;
         selectedIndex = -1;
         mouseMarker.sprite = null;
-        Camera.main.gameObject.GetComponent<CameraFollow2D>().trackRotation = false;
+        follow.trackRotation = false;
+        follow.zoomScale = 1;
     }
     public void enterBuildMode() //fix rotation
     {
@@ -157,14 +213,23 @@ public class BuildingManager : MonoBehaviour
         grid.SetActive(true);
         gameplayUI.gameObject.SetActive(false);
         isBuilding = true;
-        Camera.main.gameObject.GetComponent<CameraFollow2D>().trackRotation = true;
+        follow.trackRotation = true;
+        follow.zoomScale = .5f;
     }
 
     public void onSelectBuildItem(int index)
     {
-        selectedIndex = index;
-        mouseMarker.sprite = mouseMarkerSprites[index];
-        mouseMarker.gameObject.transform.localRotation = Quaternion.identity;
+        if (inventories[index] > 0)
+        {
+            selectedIndex = index;
+            mouseMarker.sprite = mouseMarkerSprites[index];
+            mouseMarker.gameObject.transform.localEulerAngles = new Vector3(0, 0, FACING_UP_ANGLE);
+        }
+        else
+        {
+            selectedIndex = -1;
+            mouseMarker.sprite = null;
+        }
     }
     /// <summary>
     /// Returns true if mouse marker rotation is valid, false otherwise
@@ -175,19 +240,19 @@ public class BuildingManager : MonoBehaviour
     /// mouse grid y
     private bool isMouseMarkerRotationValid(int x, int y)
     {
-        if (mouseMarker.transform.rotation.eulerAngles.z == FACING_UP_ANGLE) //Facing up
+        if (mouseMarker.transform.localEulerAngles.z == FACING_UP_ANGLE) //Facing up
         {
             return isBlockBelow(x, y);
         }
-        if (mouseMarker.transform.rotation.eulerAngles.z == FACING_DOWN_ANGLE) //Facing down
+        if (mouseMarker.transform.localEulerAngles.z == FACING_DOWN_ANGLE) //Facing down
         {
             return isBlockAbove(x, y); 
         }
-        if (mouseMarker.transform.rotation.eulerAngles.z == FACING_RIGHT_ANGLE) //Facing right
+        if (mouseMarker.transform.localEulerAngles.z == FACING_RIGHT_ANGLE) //Facing right
         {
             return isBlockToLeft(x, y);
         }
-        if (mouseMarker.transform.rotation.eulerAngles.z == FACING_LEFT_ANGLE) //Facing left
+        if (mouseMarker.transform.localEulerAngles.z == FACING_LEFT_ANGLE) //Facing left
         {
             return isBlockToRight(x, y);
         }
@@ -205,80 +270,80 @@ public class BuildingManager : MonoBehaviour
         //Directions will be prioritized in clockwise/counterclockwise order starting from current direction
         //TODO: Counterclockwise option
         
-        if (mouseMarker.transform.rotation.eulerAngles.z == FACING_UP_ANGLE) //Facing up
+        if (mouseMarker.transform.localEulerAngles.z == FACING_UP_ANGLE) //Facing up
         {
             //Priority: Right, Down, Left
             if (isBlockToLeft(x, y))
             {
                 //There is a block to the left, so point right
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, FACING_RIGHT_ANGLE);
+                mouseMarker.transform.localEulerAngles = new Vector3(0, 0, FACING_RIGHT_ANGLE);
             }
             else if (isBlockAbove(x, y))
             {
                 //There is a block above, so point down
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, FACING_DOWN_ANGLE);
+                mouseMarker.transform.localEulerAngles = new Vector3(0, 0, FACING_DOWN_ANGLE);
             }
             else if (isBlockToRight(x, y))
             {
                 //There is a block to the right, so point left
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, FACING_LEFT_ANGLE);
+                mouseMarker.transform.localEulerAngles = new Vector3(0, 0, FACING_LEFT_ANGLE);
             }
         }
-        else if (mouseMarker.transform.rotation.eulerAngles.z == FACING_DOWN_ANGLE) //Facing down
+        else if (mouseMarker.transform.localEulerAngles.z == FACING_DOWN_ANGLE) //Facing down
         {
             //Priority: Left, Up, Right
             if (isBlockToRight(x, y))
             {
                 //There is a block to the right, so point left
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, FACING_LEFT_ANGLE);
+                mouseMarker.transform.localEulerAngles = new Vector3(0, 0, FACING_LEFT_ANGLE);
             }
             else if (isBlockBelow(x, y))
             {
                 //There is a block below, so point up
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, FACING_UP_ANGLE);
+                mouseMarker.transform.localEulerAngles = new Vector3(0, 0, FACING_UP_ANGLE);
             }
             else if (isBlockToLeft(x, y))
             {
                 //There is a block to the left, so point right
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, FACING_RIGHT_ANGLE);
+                mouseMarker.transform.localEulerAngles = new Vector3(0, 0, FACING_RIGHT_ANGLE);
             }
         }
-        else if (mouseMarker.transform.rotation.eulerAngles.z == FACING_RIGHT_ANGLE) //Facing right
+        else if (mouseMarker.transform.localEulerAngles.z == FACING_RIGHT_ANGLE) //Facing right
         {
             //Priority: Down, Left, Up
             if (isBlockAbove(x, y))
             {
                 //There is a block above, so point down
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, FACING_DOWN_ANGLE);
+                mouseMarker.transform.localEulerAngles = new Vector3(0, 0, FACING_DOWN_ANGLE);
             }
             else if (isBlockToRight(x, y))
             {
                 //There is a block to the right, so point left
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, FACING_LEFT_ANGLE);
+                mouseMarker.transform.localEulerAngles = new Vector3(0, 0, FACING_LEFT_ANGLE);
             }
             else if (isBlockBelow(x, y))
             {
                 //There is a block below, so point up
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, FACING_UP_ANGLE);
+                mouseMarker.transform.localEulerAngles = new Vector3(0, 0, FACING_UP_ANGLE);
             }
         }
-       else if (mouseMarker.transform.rotation.eulerAngles.z == FACING_LEFT_ANGLE) //Facing left
+       else if (mouseMarker.transform.localEulerAngles.z == FACING_LEFT_ANGLE) //Facing left
        {
             //Priority: Up, Right, Down
             if (isBlockBelow(x, y))
             {
                 //There is a block below, so point up
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, FACING_UP_ANGLE);
+                mouseMarker.transform.localEulerAngles = new Vector3(0, 0, FACING_UP_ANGLE);
             }
             else if (isBlockToLeft(x, y))
             {
                 //There is a block to the left, so point right
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, FACING_RIGHT_ANGLE);
+                mouseMarker.transform.localEulerAngles = new Vector3(0, 0, FACING_RIGHT_ANGLE);
             }
             else if (isBlockAbove(x, y))
             {
                 //There is a block above, so point down
-                mouseMarker.transform.eulerAngles = new Vector3(0, 0, FACING_DOWN_ANGLE);
+                mouseMarker.transform.localEulerAngles = new Vector3(0, 0, FACING_DOWN_ANGLE);
             }
        }
     }
@@ -304,6 +369,5 @@ public class BuildingManager : MonoBehaviour
         parentShip.Initialize(placedObjects);
         parentShip.IntegrityCheck();
         parentShip.Unfreeze();
-
     }
 }
