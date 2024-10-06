@@ -47,7 +47,7 @@ public class Lobber : Enemy
         if (rb.velocity.magnitude <= maxVeloToFire && fireCooldown <= 0)
         {
             fireCooldown = rateOfFire;
-            GameObject projectile = Instantiate(bullet_prefab, transform.position, Quaternion.identity);
+            GameObject projectile = Instantiate(bullet_prefab, transform.position, transform.rotation);
             projectile.GetComponent<Rigidbody2D>().velocity = bulletVelo * toTarget.normalized;
         }
 
