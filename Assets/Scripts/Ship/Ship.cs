@@ -101,9 +101,9 @@ public class Ship : Entity
                 if (!visited[i, j])
                 {
                     ShipComponent block = _componentGraph[i, j];
-                    allComponents.Add(block);
                     if (block != null)
                     {
+                        allComponents.Add(block);
                         if (buildingManager)
                         {
                             if (block.GetComponent<PilotComponent>() != null)
@@ -128,7 +128,9 @@ public class Ship : Entity
                 }
             }
         }
-
+        print(inBuildingMode);
+        print(invalidComponents.Count);
+        print(allComponents.Count);
         if (inBuildingMode && invalidComponents.Count == allComponents.Count) return;
         
         foreach (var component in invalidComponents)
