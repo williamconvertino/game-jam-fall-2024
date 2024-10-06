@@ -28,6 +28,8 @@ public class Boss1Behavior : MonoBehaviour
     public float laserUntilLockonTime = 0.5f; // Less than laserChargeUpTime
     public float laserBlastTime = 0.2f; // time the laser is firing
     public float laserCooldown = 5f;
+    public float trackingLaserChargePulseSpeed = 15f;
+    public float trackingLaserLockonPulseSpeed = 30f;
 
     [Header("Laser Effects")]
     public ParticleSystem laserChargeUp;
@@ -94,12 +96,14 @@ public class Boss1Behavior : MonoBehaviour
                 break;
             case BehaviorState.Charging:
                 float pulseSpeed = preLaserLockOnPulseSpeed;
+                float trackPulseSpeed = trackingLaserLockonPulseSpeed;
                 SpinRing(idleSpinSpeed);
                 if (_chargeTime < laserUntilLockonTime)
                 {
                     HeadTrackPlayer(headChargingSpeed);
                     TrackLaser();
                     pulseSpeed = preLaserChargeUpPulseSpeed;
+                    trackPulseSpeed = trackingLaserChargePulseSpeed;
                 }
                 else { laserChargeUp.Stop(); }
                 _chargeTime += Time.deltaTime;
@@ -107,6 +111,9 @@ public class Boss1Behavior : MonoBehaviour
                 emitter.rateOverTime = Mathf.Lerp(laserChargeParticleStartRate, laserChargeParticleEndRate, _chargeTime / laserChargeUpTime);
                 float preLaserSize = preLaserPulseEffectSize * Mathf.Sin(_chargeTime * pulseSpeed) + Mathf.Lerp(0f, preLaserFinalSize, _chargeTime / laserChargeUpTime);
                 preLaser.localScale = new Vector3(preLaserSize, preLaserSize, 1f);
+
+                float trackingBeamAlpha = Mathf.Sin(_chargeTime * trackPulseSpeed) * 0.5f + 0.5f;
+                _laserTrackingBeam.startColor = new Color(_laserTrackingBeam.startColor.r, _laserTrackingBeam.startColor.g, _laserTrackingBeam.startColor.b, trackingBeamAlpha);
                 break;
             case BehaviorState.Firing:
                 _timeSinceLaser += Time.deltaTime;

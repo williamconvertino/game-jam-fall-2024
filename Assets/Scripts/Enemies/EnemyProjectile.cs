@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
 
-public class Projectile : MonoBehaviour
+public class EnemyProjectile : MonoBehaviour
 {
     [SerializeField] private int _damage = 1;
     [SerializeField] private float _speed = 2.0f;
@@ -33,13 +33,14 @@ public class Projectile : MonoBehaviour
     public void OnCollisionEnter2D(Collision2D collision)
     {
 
-        EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
+        ShipComponent block = collision.collider.gameObject.GetComponent<ShipComponent>();
 
-        if (enemy != null)
+        if (block != null)
         {
-            enemy.ApplyDamage(_damage);
+            block.TakeDamage(_damage);
+            Destroy(gameObject);
         }
-        else print("projectile collided with a non-enemy");
+        else print("enemy projectile collided with a non-block");
 
         Destroy(gameObject);
     }

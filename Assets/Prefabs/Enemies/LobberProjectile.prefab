@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6672345340821269832}
   - component: {fileID: 4277348496856777021}
   - component: {fileID: 1484627874728323135}
-  - component: {fileID: 455324158465508332}
-  m_Layer: 0
+  - component: {fileID: 6519444293659443523}
+  m_Layer: 9
   m_Name: LobberProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &4277348496856777021
 CircleCollider2D:
@@ -91,7 +91,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -136,7 +136,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1263851747
-  m_SortingLayer: 5
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 0.98490566, g: 0.5105424, b: 0, a: 1}
@@ -149,7 +149,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &455324158465508332
+--- !u!114 &6519444293659443523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,7 +158,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3313688669294642111}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 397cd007576229a4a931111eb7430649, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c2bd8cff4d841249b4def3253b5d758, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 1
