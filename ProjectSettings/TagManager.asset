@@ -42,11 +42,23 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Player Ship
-    uniqueID: 1957638177
+  - name: Default
+    uniqueID: 0
     locked: 0
-  - name: Player Ship Element
-    uniqueID: 2071897675
+  - name: Background
+    uniqueID: 1065035659
+    locked: 0
+  - name: Planet Background
+    uniqueID: 972475225
+    locked: 0
+  - name: Planet Walls
+    uniqueID: 3242816891
+    locked: 0
+  - name: Planet Cover
+    uniqueID: 1257600575
+    locked: 0
+  - name: Projectile
+    uniqueID: 1263851747
     locked: 0
   - name: Enemy Ship
     uniqueID: 1152715091
@@ -54,21 +66,12 @@ TagManager:
   - name: Enemy Ship Element
     uniqueID: 1936358757
     locked: 0
-  - name: Projectile
-    uniqueID: 1263851747
+  - name: Player Ship Element
+    uniqueID: 2071897675
     locked: 0
-  - name: Planet Cover
-    uniqueID: 1257600575
+  - name: Player Ship
+    uniqueID: 1957638177
     locked: 0
-  - name: Planet Walls
-    uniqueID: 3242816891
-    locked: 0
-  - name: Planet Background
-    uniqueID: 972475225
-    locked: 0
-  - name: Background
-    uniqueID: 1065035659
-    locked: 0
-  - name: Default
-    uniqueID: 0
+  - name: UI
+    uniqueID: 3334068431
     locked: 0
